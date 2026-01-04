@@ -1,0 +1,30 @@
+@use 'variables';
+
+.desktop-only {
+    @media (max-width: variables.$mobile-breakpoint) {
+        display: none !important;
+    }
+}
+
+.mobile-only {
+    @media (min-width: variables.$mobile-breakpoint) {
+        display: none !important;
+    }
+}
+
+@function changeColorLightness($color, $percent) {
+    $lightness-change: calc($percent / 100);
+    @return oklch(from $color calc(l + $lightness-change) c h);
+}
+
+@function darken-color($color, $percent) {
+    @return changeColorLightness($color, -$percent);
+}
+
+@function lighten-color($color, $percent) {
+    @return changeColorLightness($color, $percent);
+}
+
+@function get-font-size($target-size) {
+    @return calc(var(--base-font-size) * $target-size);
+}

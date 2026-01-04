@@ -1,0 +1,30 @@
+<header>
+  <div class="panel">
+    <div class="image-wrapper desktop-only">
+      <img src="assets/images/cc_logo_transparent.png" alt="Logo">
+    </div>
+    <div class="layout-wrapper">
+      <div class="title header-font">{{ profileTitle }}</div>
+      <div class="subtitle mobile-only">
+        <div class="row-space-between">
+          <div>{{ profileSubtitleParts[0] }}</div><div>|</div><div>{{ profileSubtitleParts[1] }}</div>
+        </div>
+        <div class="row-space-between">
+          <div>{{ profileSubtitleParts[2] }}</div>
+        </div>
+      </div>
+      <div class="subtitle desktop-only">
+        <div class="row-space-between">
+          @for(profileSubtitlePart of profileSubtitleParts; track profileSubtitlePart; let last = $last)
+          {
+            <div>{{ profileSubtitlePart }}</div>
+            @if(!last)
+            {
+              <div>|</div>
+            }
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

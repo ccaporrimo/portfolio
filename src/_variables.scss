@@ -1,0 +1,30 @@
+:root {
+    // colors
+    --color-primary-dark: #191919;
+    --color-primary-light: #dfdfdf;
+
+    --color-highlight-500: #002B4C;
+    --color-highlight-300: oklch(from var(--color-highlight-500) calc(l + 0.05) c h);
+    --color-highlight-100: oklch(from var(--color-highlight-500) calc(l + 0.1) c h);
+
+    --color-highlight-secondary: #668094;
+    --color-highlight-tertiary: #99AAB7;
+
+    --color-neutral-900: #333739;
+    --color-neutral-800: oklch(from var(--color-neutral-900) calc(l + 0.05) c h);
+    --color-neutral-700: #4A5258;
+    --color-neutral-500: #d8dadb;
+    --color-neutral-400: oklch(from var(--color-neutral-500) calc(l + 0.05) c h);
+    --color-neutral-300: #EBEEF1;
+    --color-neutral-100: #F3F5F7;
+
+    // fonts
+    --body-font-family: 'Inter', sans-serif;
+    --header-font-family: 'Space Grotesk', sans-serif; 
+    --base-font-size: 1rem;
+}
+
+$mobile-breakpoint: 1025px;
+
+$colorPrimaryDark: var(--color-primary-dark);
+$colorPrimaryLight: var(--color-primary-light);

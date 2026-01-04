@@ -1,0 +1,29 @@
+@if(canScrollDown || canScrollUp)
+{
+<ng-container [ngTemplateOutlet]="verticalScrollerArrow" [ngTemplateOutletContext]="{ disabled: !canScrollUp, direction: 'up' }" />
+}
+
+<div #scrollerContainer class="scroller-container">
+  @for(item of items; track item)
+  {
+    <ng-container [ngTemplateOutlet]="verticalScrollerItem" [ngTemplateOutletContext]="{ $implicit: item }" />
+  }
+</div>
+
+@if(canScrollDown || canScrollUp)
+{
+<ng-container [ngTemplateOutlet]="verticalScrollerArrow" [ngTemplateOutletContext]="{ disabled: !canScrollDown, direction: 'down' }" />
+}
+
+<!-- Template for each scroller item -->
+<ng-template #verticalScrollerItem let-item>
+  <div #scrollerItem class="item-image"><img [src]="item.imageUrl" [alt]="item.title"></div>  
+</ng-template>
+
+<ng-template #verticalScrollerArrow let-direction="direction" let-disabled="disabled">
+  <div class="arrow-container">
+    <div class="arrow" [class.flipped]="direction == 'down'" [class.disabled]="disabled" (click)="scroll(direction)">
+      <mat-icon svgIcon="arrow-up" />
+    </div>
+  </div>
+</ng-template>

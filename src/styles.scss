@@ -1,1 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'variables';
+@use 'helpers';
+@use 'material-overrides';
+
+body {
+    background: linear-gradient(to bottom right, var(--color-primary-500), var(--color-primary-300));
+    color: light-dark(var(--color-primary-dark), var(--color-primary-light));
+    margin: 0;
+    width: 100svw;
+    height: 100svh;
+    font-family: var(--body-font-family);
+    font-size: var(--base-font-size);
+}
+
+.header-font, .header-font--regular, .header-font--bold, .header-font--italic, .header-font--bold-italic {    
+    font-family: var(--header-font-family);
+    font-weight: 400;
+    font-style: normal;
+
+    &--bold {
+        font-weight: 700;
+    }
+
+    &--italic {
+        font-style: italic;
+    }
+
+    &--bold-italic {
+        font-weight: 700;
+        font-style: italic;
+    }
+}
