@@ -1,23 +1,32 @@
-@if(canScrollDown || canScrollUp)
+@if(canScroll)
 {
-<ng-container [ngTemplateOutlet]="verticalScrollerArrow" [ngTemplateOutletContext]="{ disabled: !canScrollUp, direction: 'up' }" />
+<ng-container [ngTemplateOutlet]="verticalScrollerArrow" [ngTemplateOutletContext]="{ disabled: false, direction: 'up' }" />
 }
 
-<div #scrollerContainer class="scroller-container">
-  @for(item of items; track item)
-  {
-    <ng-container [ngTemplateOutlet]="verticalScrollerItem" [ngTemplateOutletContext]="{ $implicit: item }" />
-  }
+<div class="scroller-container" (wheel)="wheelScroll($event)">
+  <div #scroller class="scroller">
+    <ng-container [ngTemplateOutlet]="verticalScrollerItem" [ngTemplateOutletContext]="{ item: previousItem$ | async }" />
+    @for(item of (visibleItems$ | async); track item)
+    {
+      <ng-container [ngTemplateOutlet]="verticalScrollerItem" [ngTemplateOutletContext]="{ item }" />
+    }
+    <ng-container [ngTemplateOutlet]="verticalScrollerItem" [ngTemplateOutletContext]="{ item: nextItem$ | async }" />
+  </div>  
 </div>
 
-@if(canScrollDown || canScrollUp)
+@if(canScroll)
 {
-<ng-container [ngTemplateOutlet]="verticalScrollerArrow" [ngTemplateOutletContext]="{ disabled: !canScrollDown, direction: 'down' }" />
+<ng-container [ngTemplateOutlet]="verticalScrollerArrow" [ngTemplateOutletContext]="{ disabled: false, direction: 'down' }" />
 }
 
 <!-- Template for each scroller item -->
-<ng-template #verticalScrollerItem let-item>
-  <div #scrollerItem class="item-image"><img [src]="item.imageUrl" [alt]="item.title"></div>  
+<ng-template #verticalScrollerItem let-item="item">
+  <div #scrollerItem class="item-container">
+    <img [src]="item.imageUrl" [alt]="item.title" (pointerenter)="itemHoverChange(item, 'enter')" (pointerleave)="itemHoverChange(item, 'leave')">
+    <div class="tooltip-container" [class.is-visible]="item.hovered">
+      <div class="tooltip">{{ item.title }}</div>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #verticalScrollerArrow let-direction="direction" let-disabled="disabled">
