@@ -1,22 +1,20 @@
 @if(canScroll)
 {
-<ng-container [ngTemplateOutlet]="verticalScrollerArrow" [ngTemplateOutletContext]="{ disabled: false, direction: 'up' }" />
+<ng-container [ngTemplateOutlet]="verticalScrollerArrow" [ngTemplateOutletContext]="{ direction: 'up' }" />
 }
 
 <div class="scroller-container" (wheel)="wheelScroll($event)">
   <div #scroller class="scroller">
-    <ng-container [ngTemplateOutlet]="verticalScrollerItem" [ngTemplateOutletContext]="{ item: previousItem$ | async }" />
     @for(item of (visibleItems$ | async); track item)
     {
       <ng-container [ngTemplateOutlet]="verticalScrollerItem" [ngTemplateOutletContext]="{ item }" />
     }
-    <ng-container [ngTemplateOutlet]="verticalScrollerItem" [ngTemplateOutletContext]="{ item: nextItem$ | async }" />
   </div>  
 </div>
 
 @if(canScroll)
 {
-<ng-container [ngTemplateOutlet]="verticalScrollerArrow" [ngTemplateOutletContext]="{ disabled: false, direction: 'down' }" />
+<ng-container [ngTemplateOutlet]="verticalScrollerArrow" [ngTemplateOutletContext]="{ direction: 'down' }" />
 }
 
 <!-- Template for each scroller item -->
@@ -29,9 +27,10 @@
   </div>
 </ng-template>
 
-<ng-template #verticalScrollerArrow let-direction="direction" let-disabled="disabled">
+<!-- Template for scroll arrow -->
+<ng-template #verticalScrollerArrow let-direction="direction">
   <div class="arrow-container">
-    <div class="arrow" [class.flipped]="direction == 'down'" [class.disabled]="disabled" (click)="scroll(direction)">
+    <div class="arrow" [class.flipped]="direction == 'down'" (click)="scroll(direction)">
       <mat-icon svgIcon="arrow-up" />
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { VerticalScrollerItem } from '../../../interfaces/vertical-scroller-item.interface';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
@@ -24,25 +24,35 @@ const testData: VerticalScrollerItem[] = [
 })
 export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() items: VerticalScrollerItem[] = testData;
+  @Input() numberVisibleItems: number = 4;
+  @Input() autoScrollInterval:number = 5000;
+  @Input() gapPercent: number = 8;
+
   @ViewChild('scroller') scroller!: ElementRef;
+  
+  @HostBinding('style.--num-visible-items')
+  numVisibleItems = this.numberVisibleItems;
+
+  @HostBinding('style.--gap-in-percent')
+  gapInPercent = `${this.gapPercent}%`;
 
   protected canScroll = false;
   protected visibleItems$: BehaviorSubject<VerticalScrollerItem[]> = new BehaviorSubject([] as VerticalScrollerItem[]);
-  protected previousItem$: BehaviorSubject<VerticalScrollerItem> | null = null;
-  protected nextItem$: BehaviorSubject<VerticalScrollerItem> | null = null;
 
   private _currentIndex: number = 0;  
   private _autoScrollIntervalId!: number;
   private _isScrolling: boolean = false;
+  
   private get _scrollEl(): HTMLElement | null { return this.scroller?.nativeElement; }
+  private get _interval() { return this.autoScrollInterval; } 
+  private get _scrollAmount(): string { return `${100 / this.numberVisibleItems}%`; }
 
-  private readonly _numVisibleItems = 4;
-  private readonly _interval = 5000;
-  private readonly _scrollAmount: string = `${100 / this._numVisibleItems}%`;
   private readonly _scrollAnimationOptions: KeyframeAnimationOptions = { duration: 750, easing: 'ease-in-out', fill: 'forwards' };
 
   ngOnInit() {
     this.setVisibleItems();
+    this.numVisibleItems = this.numberVisibleItems;
+    this.gapInPercent = `${this.gapPercent}%`;
   }
 
   ngAfterViewInit() {
@@ -54,8 +64,6 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
   ngOnDestroy(): void {
     this._autoScrollIntervalId && clearInterval(this._autoScrollIntervalId);
     this.visibleItems$.complete();
-    this.nextItem$?.complete();
-    this.previousItem$?.complete();
   }
 
   public scroll(direction: 'up' | 'down', isManual: boolean = true) {
@@ -80,31 +88,17 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   private setVisibleItems(): void {
-    if (this.items!.length <= this._numVisibleItems) {
+    if (this.items!.length <= this.numberVisibleItems) {
       this.visibleItems$.next(this.items);
       return;      
     }
     
     this.canScroll = true;
-    const nextVisibleSet = Array.from({ length: this._numVisibleItems + 2 }).map((_, offset) => this.items[this.calcIndex(offset)]);
+    const nextVisibleSet = Array.from({ length: this.numberVisibleItems + 2 }).map((_, offset) => this.items[this.calcIndex(offset)]);
     this.visibleItems$.next(nextVisibleSet);
-    this.setNonVisibleItems();
   }
 
   private calcIndex = (offset: number) => (this._currentIndex + offset + this.items.length) % this.items.length;
-
-  private setNonVisibleItems() {
-    const prevIndex = this.calcIndex(-1);
-    const nextIndex = this.calcIndex(this._numVisibleItems);
-    if (!!this.previousItem$) {
-      this.previousItem$.next(this.items[prevIndex]);
-      this.nextItem$?.next(this.items[nextIndex]);
-      return;
-    }
-
-    this.previousItem$ = new BehaviorSubject(this.items[prevIndex]);
-    this.nextItem$ = new BehaviorSubject(this.items[nextIndex]);
-  }
   
   private animateScroll(direction: 'up' | 'down'): void {
     if (!this._scrollEl) return;
