@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { VerticalScrollerComponent } from "../ui/vertical-scroller/vertical-scroller.component";
 
@@ -8,11 +8,17 @@ import { VerticalScrollerComponent } from "../ui/vertical-scroller/vertical-scro
   styleUrls: ['./main-content.component.scss'],
   imports: [RouterOutlet, VerticalScrollerComponent]
 })
-export class MainContentComponent implements OnInit {
+export class MainContentComponent {
 
-  constructor() { }
+  protected showScroller = signal(false);
 
-  ngOnInit() {
+  constructor() {
+    this.updateShowScroller();
+    window.addEventListener('resize', () => this.updateShowScroller())
   }
 
+  private updateShowScroller() {
+    const isLandscape = window.matchMedia('(orientation: landscape)').matches;
+    this.showScroller.set(isLandscape && window.innerWidth > 1024);
+  }
 }

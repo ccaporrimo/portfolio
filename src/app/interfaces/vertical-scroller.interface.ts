@@ -5,3 +5,5 @@ export interface VerticalScrollerItem {
     tooltip?: string;
     hovered?: boolean;
 }
+
+export type ScrollDirection = 'up' | 'down';

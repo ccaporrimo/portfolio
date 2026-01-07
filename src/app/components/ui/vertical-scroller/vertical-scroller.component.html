@@ -20,7 +20,7 @@
 <!-- Template for each scroller item -->
 <ng-template #verticalScrollerItem let-item="item">
   <div #scrollerItem class="item-container">
-    <img [src]="item.imageUrl" [alt]="item.title" (pointerenter)="itemHoverChange(item, 'enter')" (pointerleave)="itemHoverChange(item, 'leave')">
+    <img [src]="item.imageUrl" [alt]="item.title" (pointerenter)="item.hovered = true" (pointerleave)="item.hovered = false">
     <div class="tooltip-container" [class.is-visible]="item.hovered">
       <div class="tooltip">{{ item.title }}</div>
     </div>
@@ -30,7 +30,7 @@
 <!-- Template for scroll arrow -->
 <ng-template #verticalScrollerArrow let-direction="direction">
   <div class="arrow-container">
-    <div class="arrow" [class.flipped]="direction == 'down'" (click)="scroll(direction)">
+    <div class="arrow" [class.flipped]="direction == 'down'" (click)="arrowScroll(direction)">
       <mat-icon svgIcon="arrow-up" />
     </div>
   </div>

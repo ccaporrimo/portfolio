@@ -14,7 +14,7 @@ import { IconService } from './services/icon.service';
 })
 export class App {
   protected readonly profileTitle = 'Christian Caporrimo';
-  protected readonly profileSubtitle = 'Software Engineer | Systems Architect | UX-Driven Designer';
+  protected readonly profileSubtitle = 'Software Engineer | Systems Architect | Code Artisan';
   protected readonly profileSubtitleParts = this.profileSubtitle.split(' | ');
   protected readonly currentYear = new Date().getFullYear();
 

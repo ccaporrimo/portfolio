@@ -1,9 +1,12 @@
 <main>
+  @if (showScroller())
+  {
   <div class="main-margin left">
-    <app-vertical-scroller />
+    <app-vertical-scroller [numberVisibleItems]="4" />
   </div>
+  }  
   <div class="panel">
     <router-outlet></router-outlet>
   </div>
-  <div class="main-margin right">Right</div>
+  <div class="main-margin right desktop-only">Right</div>
 </main>
