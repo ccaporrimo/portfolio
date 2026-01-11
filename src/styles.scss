@@ -5,7 +5,10 @@
 @import url("https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css");
 
 body {
-    background: linear-gradient(to bottom right, var(variables.$colorPrimaryDark), var(--color-primary-500));
+    background: linear-gradient(to top,
+        light-dark(variables.$colorPrimaryLight, variables.$colorPrimaryDark) 70%,
+        light-dark(helpers.darken-color(variables.$colorPrimaryLight, 7.5), helpers.lighten-color(variables.$colorPrimaryDark, 5))
+    );
     color: light-dark(var(--color-primary-dark), var(--color-primary-light));
     margin: 0;
     width: 100svw;

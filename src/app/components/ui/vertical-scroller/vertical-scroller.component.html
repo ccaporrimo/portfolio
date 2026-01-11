@@ -20,10 +20,10 @@
 <!-- Template for each scroller item -->
 <ng-template #verticalScrollerItem let-item="item">
   <div #scrollerItem class="item-container">
-    <img [src]="item.imageUrl" [alt]="item.title" (pointerenter)="item.hovered = true" (pointerleave)="item.hovered = false">
+    <img [src]="item.imageUrl" (click)="itemSelected.emit(item)" [alt]="item.title" (pointerenter)="!isMobile && item.hovered = true" (pointerleave)="!isMobile && item.hovered = false">
     <div class="tooltip-container" [class.is-visible]="item.hovered">
       <div class="tooltip">{{ item.title }}</div>
-    </div>
+    </div>    
   </div>
 </ng-template>
 

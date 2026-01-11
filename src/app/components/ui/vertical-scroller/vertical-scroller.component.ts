@@ -1,22 +1,11 @@
-import { AfterViewInit, Component, ElementRef, HostBinding, HostListener, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ScrollDirection, VerticalScrollerItem } from '../../../interfaces/vertical-scroller.interface';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { BehaviorSubject } from 'rxjs';
+import { BrowserHelpers } from '../../../services/helpers';
 
-const testData: VerticalScrollerItem[] = [
-  { imageUrl: '/assets/images/512px-Amazon_Web_Services_Logo.png', route: '/skills/aws', title: 'AWS' },
-  { imageUrl: '/assets/images/csharp-128.png', route: '/skills/c-sharp', title: 'C#', tooltip: 'C# language' },
-  { imageUrl: '/assets/images/NET_Core_Logo.svg', route: '/skills/dot-net-core', title: '.NET Core', tooltip: '.NET Core framework & APIs' },
-  { imageUrl: '/assets/images/angular_gradient.png', route: '/skills/angular', title: 'Angular', tooltip: 'Angular framework' },
-  { imageUrl: '/assets/images/Microsoft_SQL_Server_2025_icon.svg', route: '/skills/sql-server', title: 'SQL Server', tooltip: 'Microsoft SQL Server database' },
-  { imageUrl: '/assets/images/ngrx-logo.svg', route: '/skills/ngrx', title: 'NgRx', tooltip: 'NgRx state management' },
-  { imageUrl: '/assets/images/redis-icon.svg', route: '/skills/redis', title: 'Redis' },  
-  { imageUrl: '/assets/images/Sass.png', route: '/skills/scss', title: 'SCSS' },
-  { imageUrl: '/assets/images/Rx_Logo-512-512.png', route: '/skills/rxjs', title: 'RxJs & Reactive' },
-  { imageUrl: '/assets/images/ts-logo-256.png', route: '/skills/typescript', title: 'TypeScript', tooltip: 'TypeScript language' },  
-  { imageUrl: '/assets/images/Azure-DevOps.svg', route: '/skills/azure-devops', title: 'Azure DevOps' },
-];
+const { isMobile } = BrowserHelpers;
 
 @Component({
   selector: 'app-vertical-scroller',
@@ -25,10 +14,12 @@ const testData: VerticalScrollerItem[] = [
   imports: [CommonModule, MatIcon]
 })
 export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() items: VerticalScrollerItem[] = testData;
+  @Input() items!: VerticalScrollerItem[];
   @Input() numberVisibleItems: number = 4;
   @Input() autoScrollInterval:number = 5000;
   @Input() gapPercent: number = 8;
+
+  @Output() itemSelected: EventEmitter<VerticalScrollerItem> = new EventEmitter();
 
   @ViewChild('scroller') scroller!: ElementRef;
   
@@ -46,6 +37,7 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
 
   protected canScroll = false;
   protected visibleItems$: BehaviorSubject<VerticalScrollerItem[]> = new BehaviorSubject([] as VerticalScrollerItem[]);
+  protected isMobile = isMobile;
 
   private _currentIndex: number = 0;  
   private _autoScrollIntervalId!: number;
@@ -68,6 +60,7 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
     if (!this.items?.length || !this._scrollEl || !this.canScroll) return;
 
     this.autoScroll();
+    isMobile && this.setupGestures();
   }
 
   ngOnDestroy(): void {
@@ -85,7 +78,12 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
     this._scrollAnimationOptions.duration = 200;
     this.scroll(event.deltaY > 0 ? 'down' : 'up');
   }
-  
+
+  private touchScroll(direction: ScrollDirection) {
+    this._scrollAnimationOptions.duration = 200;
+    this.scroll(direction);
+  }
+
   private scroll(direction: ScrollDirection) {
     if (!this._scrollEl || this._isScrolling) return;
     
@@ -127,9 +125,17 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
     return [{ transform: 'translateY(0%)' }, { transform: `translateY(${negation}${this._scrollAmount})` }];
   }
 
+  private setupGestures() {
+    const hammer = new Hammer(this.scroller.nativeElement);
+    hammer.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+
+    hammer.on('swipeup', () => this.touchScroll('down'));
+    hammer.on('swipedown', () => this.touchScroll('up'));
+  }
+
   private disableAutoScroll = () => this._autoScrollIntervalId && clearInterval(this._autoScrollIntervalId);
-  private autoScroll = () => this.canScroll && (this._autoScrollIntervalId = setInterval(() => this.autoScrollWorker(), this._interval));
-  
+  private autoScroll = () => this.canScroll && !isMobile && (this._autoScrollIntervalId = setInterval(() => this.autoScrollWorker(), this._interval));  
+
   private autoScrollWorker() {
     this._scrollAnimationOptions.duration = 750;
     this.scroll(this._autoScrollDirection);

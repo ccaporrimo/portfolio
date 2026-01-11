@@ -1,0 +1,23 @@
+<div class="side-drawer-container" [class.opened]="isOpen">
+@if(side === Sides.Right)
+{
+  <ng-container [ngTemplateOutlet]="openCloseButton"></ng-container>
+}
+<div class="content-wrapper">
+  @if(isOpen || isClosing)
+  {
+    <ng-content></ng-content>
+  }
+</div>
+@if(side === Sides.Left)
+{
+  <ng-container [ngTemplateOutlet]="openCloseButton"></ng-container>
+}
+</div>
+
+<!-- TEMPLATES -->
+<ng-template #openCloseButton>
+  <div class="icon-wrapper" (click)="toggleDrawer()">
+    <mat-icon [svgIcon]="isOpen ? 'left-panel-close' : 'left-panel-open'"></mat-icon>
+  </div>
+</ng-template>

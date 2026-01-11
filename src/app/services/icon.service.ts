@@ -9,10 +9,10 @@ export class IconService {
   constructor(private _iconRegistry: MatIconRegistry, private _sanitizer: DomSanitizer) { }
 
   public init(): void {
-    this.registerIcons();    
+    this.registerSvgIcons();    
   }
 
-  private registerIcons(): void {
+  private registerSvgIcons(): void {
     Object.keys(iconDefinitions).forEach(iconName => this._iconRegistry.addSvgIcon(iconName, this._sanitizer.bypassSecurityTrustResourceUrl(iconDefinitions[iconName])));
   }
 }

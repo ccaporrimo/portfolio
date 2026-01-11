@@ -1,7 +1,12 @@
+$colorPrimaryDark: #191919;
+$colorPrimaryLight: #dfdfdf;
+
+$mobile-breakpoint: 1025px;
+
 :root {
     // colors
-    --color-primary-dark: #191919;
-    --color-primary-light: #dfdfdf;
+    --color-primary-dark: $colorPrimaryDark;
+    --color-primary-light: $colorPrimaryLight;
 
     --color-highlight-500: #002B4C;
     --color-highlight-300: oklch(from var(--color-highlight-500) calc(l + 0.05) c h);
@@ -23,8 +28,3 @@
     --header-font-family: 'Space Grotesk', sans-serif; 
     --base-font-size: 1rem;
 }
-
-$mobile-breakpoint: 1025px;
-
-$colorPrimaryDark: var(--color-primary-dark);
-$colorPrimaryLight: var(--color-primary-light);

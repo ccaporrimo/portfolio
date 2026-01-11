@@ -1,0 +1,57 @@
+@use '../../../../variables' as v;
+
+:host {
+    --icon-width: 40px;
+    --icon-wrapper-padding: 5px;
+    --total-icon-width: calc(var(--icon-width) + (2 * var(--icon-wrapper-padding)));
+    --transform-distance: calc(90svw - var(--total-icon-width));
+    --transform-distance-neg: calc(-1 * var(--transform-distance));
+    --animation-duration: 0.1s;
+
+    position: fixed;
+    top: 12svh;
+    height: 82svh;
+    width: 90svw;
+    left: var(--transform-distance-neg);
+}
+
+$backgroundColor: rgba(v.$colorPrimaryDark, 0.75);
+
+.side-drawer-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transform: translateX(0);
+    transition: transform var(--animation-duration);
+
+
+    &.opened {
+        transform: translateX(var(--transform-distance));
+    }
+
+    .content-wrapper {
+        height: 95%;
+        width: var(--transform-distance);
+
+        background-color: $backgroundColor;
+        display: flex;
+        flex-direction: column;        
+    }
+
+    .icon-wrapper {
+        background-color: v.$colorPrimaryDark;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 25%;
+
+        padding: var(--icon-wrapper-padding);
+
+        mat-icon {
+            width: var(--icon-width);
+            height: var(--icon-width);
+        }
+    }
+}
