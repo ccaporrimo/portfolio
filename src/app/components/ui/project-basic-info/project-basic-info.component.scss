@@ -1,0 +1,54 @@
+@use '../../../../helpers' as h;
+@use '../../../../variables' as v;
+
+:host {
+    width: 100%;
+}
+
+.basic-info {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 2rem;
+    row-gap: 0.5rem;
+
+    @media screen and (min-width: 1025px) {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 4px;
+    }
+}
+mat-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.row {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-size: h.get-font-size(0.9);
+    height: 24px;
+    gap: 0.5rem;
+
+    .label {
+        width: 22px;
+        height: 22px;
+        border-radius: 9999px;
+        border: 1px solid v.$colorPrimaryInv;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;            
+    }
+
+    position: relative;
+    .tiny {
+        position: relative;
+        top: -4px;
+        left: -8px;
+
+        transform: scale(0.6);
+    }
+}

@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="header">
+    <div (click)="close()"><mat-icon svgIcon="modal_close"></mat-icon></div>
+  </div>
+  <mat-dialog-content [style.width]="'100%'">
+  @if (!!skill)
+  {
+    <div style="width: 100%;">
+      <app-skill [skill]="skill"></app-skill>
+    </div>    
+  }
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    
+  </mat-dialog-actions>
+</div>

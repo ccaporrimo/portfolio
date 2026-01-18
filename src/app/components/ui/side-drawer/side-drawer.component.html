@@ -17,7 +17,7 @@
 
 <!-- TEMPLATES -->
 <ng-template #openCloseButton>
-  <div class="icon-wrapper" (click)="toggleDrawer()">
+  <div #openCloseToggle class="icon-wrapper" (click)="toggleDrawer()">
     <mat-icon [svgIcon]="isOpen ? 'left-panel-close' : 'left-panel-open'"></mat-icon>
   </div>
 </ng-template>

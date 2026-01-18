@@ -1,0 +1,35 @@
+<div class="basic-info">    
+  @if (basicInfo.timespan)
+  {
+    <div class="row">
+      <div class="label"><mat-icon svgIcon="calendar" /></div>
+      <div>{{ basicInfo.timespan.startDate | date:'yyyy' }}</div>
+      @if (!!basicInfo.timespan.endDate) { <div>-</div><div>{{ basicInfo.timespan.endDate | date:'yyyy' }}</div> }
+    </div>
+  }
+  @if (basicInfo.company)
+  {
+    @let _company = basicInfo.company;
+    <div class="row">
+      <div class="label"><mat-icon svgIcon="office_building" /></div>
+      <div [class.app-link]="!!_company.url" (click)="!!_company.url && openExternalLink(_company.url)">{{ _company.name }}</div>
+      @if (_company.url) { <div class="tiny"><mat-icon svgIcon="open_in_new" /></div> }
+    </div>
+  } @else
+  {
+    <div class="row">Personal Project</div>
+  }
+  @if (basicInfo.soloEffort) { <div class="row"><mat-icon [style.width]="'24px'" [style.height]="'24px'" svgIcon="solo_effort" /><span>Solo Effort</span></div> }
+  @else { <div class="row"><mat-icon [style.width]="'24px'" [style.height]="'24px'" svgIcon="team_effort" /><span>Team Effort</span></div> }
+</div>
+@if (basicInfo.website)
+{
+  <div class="row" style="margin-top:0.5rem;">
+    <a class="row" target="_blank" [href]="basicInfo.website">Visit project website</a>
+    <div class="tiny"><mat-icon svgIcon="open_in_new" /></div>
+  </div>
+}
+
+<ng-template #company>
+
+</ng-template>

@@ -1,5 +1,6 @@
 import { from, Observable, take } from "rxjs";
-import { VerticalScrollerItem } from "../interfaces/vertical-scroller.interface";
+
+export class Year extends Date { constructor(year: number) { super(year, 0, 1); } }
 
 export function createDeferred<T>() {
     let resolve!: (value?: any) => void;
@@ -34,10 +35,14 @@ export namespace AnimationHelpers {
     export const setTimeout$ = (cb: () => void, delay: number = 0): Observable<void> => {
         return from(deferredTimeout(cb, delay)).pipe(take(1));
     }
+
+    export const animateEl$ = (el: HTMLElement, keyframes: Keyframe[], options?: KeyframeAnimationOptions) => {
+        return from(el.animate(keyframes, options).finished).pipe(take(1));
+    }
 }
 
 export namespace BrowserHelpers {
-    export const isLandscape = window.matchMedia('(orientation: landscape)').matches;
-    export const isLargeWidth = window.innerWidth > 1024;
-    export const isMobile = !isLandscape && !isLargeWidth;
+    export const isLandscape = () => window.matchMedia('(orientation: landscape)').matches;
+    export const isLargeWidth = () => window.innerWidth > 1024;
+    export const isMobile = () => !isLandscape() && !isLargeWidth();
 }

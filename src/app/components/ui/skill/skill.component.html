@@ -1,0 +1,11 @@
+<div #container class="container">
+  @let _currentSkill = currentSkill();
+  @if (!!_currentSkill)
+  {
+    <div class="page-header">
+      <img class="skill-logo" [src]="_currentSkill?.imageUrl">
+      <div class="title">{{ _currentSkill?.title }}</div>
+    </div>
+    <div class="page-body"></div>
+  }
+</div>

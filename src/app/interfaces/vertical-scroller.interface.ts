@@ -1,9 +1,10 @@
 export interface VerticalScrollerItem {
-    imageUrl: string;
+    id?: string;
+    imageUrl?: string;
+    svgIcon?: string;
     title: string;
     route: string;
     tooltip?: string;
-    hovered?: boolean;
 }
 
 export type ScrollDirection = 'up' | 'down';

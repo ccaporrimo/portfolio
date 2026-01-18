@@ -1,16 +1,21 @@
 $colorPrimaryDark: #191919;
 $colorPrimaryLight: #dfdfdf;
+$colorPrimary: light-dark($colorPrimaryLight, $colorPrimaryDark);
+$colorPrimaryInv: light-dark($colorPrimaryDark, $colorPrimaryLight);
 
 $mobile-breakpoint: 1025px;
+$colorHighlight: rgb(24, 50, 133);
 
 :root {
     // colors
     --color-primary-dark: $colorPrimaryDark;
     --color-primary-light: $colorPrimaryLight;
+    --color-primary: light-dark($colorPrimaryLight, $colorPrimaryDark);
+    --portfolio-stroke-color: $colorPrimaryInv;
 
-    --color-highlight-500: #002B4C;
-    --color-highlight-300: oklch(from var(--color-highlight-500) calc(l + 0.05) c h);
-    --color-highlight-100: oklch(from var(--color-highlight-500) calc(l + 0.1) c h);
+    --color-highlight-500: rgb(24, 50, 133);    
+    --color-highlight-300: oklch(from var(--color-highlight-500) calc(l + 0.15) c h);
+    --color-highlight-100: oklch(from var(--color-highlight-500) calc(l + 0.3) c h);
 
     --color-highlight-secondary: #668094;
     --color-highlight-tertiary: #99AAB7;

@@ -12,6 +12,14 @@
     }
 }
 
+@function is-mobile() {
+    @return (max-width: variables.$mobile-breakpoint) and (orientation: portrait);
+}
+
+@function is-not-mobile() {
+    @return not is-mobile();
+}
+
 @function changeColorLightness($color, $percent) {
     $lightness-change: calc($percent / 100);
     @return oklch(from $color calc(l + $lightness-change) c h);

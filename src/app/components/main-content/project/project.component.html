@@ -1,0 +1,32 @@
+<div class="content">
+@let _project = currentProject();
+@if (!!_project)
+{  
+  @if (_project.basicInfo && !isMobile())
+  {
+    <div class="floating-basic-info"><app-project-basic-info [basicInfo]="_project.basicInfo"></app-project-basic-info></div>
+  }
+  <div class="image-wrapper">
+    @if(!!_project.imageUrl){ <img [src]="_project.imageUrl" [alt]="_project.title"> }
+    @else if(!!_project.svgIcon) { <mat-icon [svgIcon]="_project.svgIcon" /> }
+  </div>
+  <div class="title">{{ _project.title }}</div>  
+  <hr>
+  @if (_project.basicInfo && isMobile())
+  {
+    <div style="width: 80%;">
+      <app-project-basic-info [basicInfo]="_project.basicInfo" />
+    </div>    
+  }
+  <div class="skill-row">
+    @for (skill of _project.skills; track skill.id)
+    {
+      <div class="skill-wrapper" (click)="viewSkill(skill.id)">
+        @if (!!skill.imageUrl) { <img [src]="skill.imageUrl"> }        
+      </div>
+    }
+  </div>
+  <hr>
+  <div class="description" [innerHTML]="_project.description"></div>
+}
+</div>

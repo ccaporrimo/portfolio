@@ -1,3 +1,58 @@
-app-vertical-scroller .arrow-container .arrow mat-icon svg path {
-    fill: light-dark(var(--color-primary-dark), var(--color-primary-light));
+@use './variables' as v;
+
+app-vertical-scroller {   
+    .arrow-container .arrow mat-icon svg path {
+        fill: v.$colorPrimaryLight;
+
+        @media (min-width: 1024px) and (orientation: portrait) {
+            fill: v.$colorPrimaryInv;    
+        }    
+    }
+    
+    .item-container mat-icon svg {
+        path, circle, polyline, line {
+            stroke: v.$colorPrimaryLight;
+        }        
+    }
+}
+
+app-project {
+    .content mat-icon svg {
+        path,circle, polyline, line {
+            stroke: v.$colorPrimaryInv;
+        }
+    }
+}
+
+app-skill-dialog {
+    .header mat-icon svg path {
+        fill: v.$colorPrimaryInv;
+    }
+}
+
+app-project-basic-info {
+    .basic-info mat-icon svg path {
+        fill: v.$colorPrimaryInv;
+    }
+}
+
+.cdk-overlay-pane.mat-mdc-dialog-panel.dialog-slide-up {
+    animation: slide-up 250ms ease;
+    bottom: 0;
+    max-width: 100dvw;
+    position: absolute !important;
+
+    &.dialog-slide-down {
+        animation: slide-down 250ms ease forwards;
+    }
+}
+
+@keyframes slide-up {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(0%); }
+}
+
+@keyframes slide-down {
+    0% { transform: translateY(0%); }
+    100% { transform: translateY(100%); }
 }

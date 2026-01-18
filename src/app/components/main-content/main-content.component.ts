@@ -4,8 +4,9 @@ import { VerticalScrollerComponent } from "../ui/vertical-scroller/vertical-scro
 import { SideDrawerComponent } from "../ui/side-drawer/side-drawer.component";
 import { CommonModule } from '@angular/common';
 import { VerticalScrollerItem } from '../../interfaces/vertical-scroller.interface';
-import { AnimationHelpers } from '../../services/helpers';
+import { AnimationHelpers, BrowserHelpers } from '../../services/helpers';
 import { SkillService } from '../../services/skill.service';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'app-main-content',
@@ -20,14 +21,16 @@ export class MainContentComponent {
   @HostBinding('style.--main-panel-fade-timing')
   fadeTiming: string = `${this._fadeTiming}ms`;
 
-  protected showInlineScroller = signal(false);
+  protected isDesktop = signal(false);
   protected fadeOut: boolean = false;
   protected skillItems: VerticalScrollerItem[];
+  protected projectItems: VerticalScrollerItem[];
 
-  constructor(private _router: Router, private _skillService: SkillService) {
-    this.updateShowScroller();
-    window.addEventListener('resize', () => this.updateShowScroller());
+  constructor(private _router: Router, private _skillService: SkillService, private _projectService: ProjectService) {
+    this.updateIsDesktop();
+    window.addEventListener('resize', () => this.updateIsDesktop());
     this.skillItems = this._skillService.skills;
+    this.projectItems = this._projectService.projects;
   }
 
   public skillSelected(item: VerticalScrollerItem) {
@@ -41,8 +44,7 @@ export class MainContentComponent {
     deferredTimeout(() => this.fadeOut = true, drawerDelay).then(_ => deferredTimeout(() => { this.fadeOut = false; this._router.navigate(route) }, this._fadeTiming));
   }
 
-  private updateShowScroller() {
-    const isLandscape = window.matchMedia('(orientation: landscape)').matches;
-    this.showInlineScroller.set(isLandscape && window.innerWidth > 1024);
+  private updateIsDesktop() {    
+    this.isDesktop.set(!BrowserHelpers.isMobile());
   }
 }

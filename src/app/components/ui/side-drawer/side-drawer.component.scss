@@ -13,9 +13,10 @@
     height: 82svh;
     width: 90svw;
     left: var(--transform-distance-neg);
+    z-index: 5;
 }
 
-$backgroundColor: rgba(v.$colorPrimaryDark, 0.75);
+$backgroundColor: rgba(v.$colorPrimaryDark, 0.9);
 
 .side-drawer-container {
     width: 100%;

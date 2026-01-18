@@ -1,7 +1,8 @@
 <main>
-  @if (showInlineScroller())
+  @if (isDesktop())
   {
   <div class="main-margin left">
+    <div class="left-panel-title">Projects</div>
     <ng-container [ngTemplateOutlet]="verticalScroller" />
   </div>
   }
@@ -14,9 +15,12 @@
   <div class="panel">
     <div class="router-container" [class.fade-out]="fadeOut"><router-outlet /></div>
   </div>
-  <div class="main-margin right desktop-only">Right</div>
+  @if (isDesktop())
+  {
+    <div class="main-margin right"><router-outlet name="rightpanel" /></div>
+  }  
 </main>
 
 <ng-template #verticalScroller>
-  <app-vertical-scroller [numberVisibleItems]="4" [items]="skillItems" (itemSelected)="skillSelected($event)" />
+  <app-vertical-scroller [numberVisibleItems]="4" [items]="projectItems" (itemSelected)="skillSelected($event)" />
 </ng-template>

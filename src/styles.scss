@@ -4,6 +4,25 @@
 
 @import url("https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css");
 
+html, body {
+    height: 100%;
+    min-height: 100dvh;
+    overflow: hidden;
+    letter-spacing: 1px;
+}
+
+a, .description p span[app-skill], .app-link {
+    color: var(--color-highlight-100);
+    text-decoration: none;
+    transition: color 0.3s;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+        color: helpers.lighten-color(variables.$colorHighlight, 40);
+    }
+}
+
 body {
     background: linear-gradient(to top,
         light-dark(variables.$colorPrimaryLight, variables.$colorPrimaryDark) 70%,
@@ -11,8 +30,7 @@ body {
     );
     color: light-dark(var(--color-primary-dark), var(--color-primary-light));
     margin: 0;
-    width: 100svw;
-    height: 100svh;
+    width: 100dvw;
     font-family: var(--body-font-family);
     font-size: var(--base-font-size);
 }
@@ -35,3 +53,15 @@ body {
         font-style: italic;
     }
 }
+
+// .description p span[app-skill] {
+//     color: var(--color-highlight-100);
+//     text-decoration: none;
+//     transition: color 0.3s, text-decoration 0.3s;
+//     cursor: pointer;
+
+//     &:hover {
+//         color: var(--color-highlight-300);
+//         text-decoration: underline;
+//     }
+// }

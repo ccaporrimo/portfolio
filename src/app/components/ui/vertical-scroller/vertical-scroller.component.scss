@@ -1,5 +1,5 @@
-@use '../../../../variables';
-@use '../../../../helpers';
+@use '../../../../variables' as v;
+@use '../../../../helpers' as h;
 
 :host {
     width: 100%;
@@ -37,10 +37,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
 
     position: relative;
+
+    .mobile-title {
+        color: v.$colorPrimaryLight;
+    }
+
+    @media (h.is-not-mobile()) {
+        gap: 0;
+    }
     
-    img {
+    img, mat-icon {
         width: auto;        
         height: 100%;
         max-height: 100%;
@@ -73,7 +82,7 @@
 
         .tooltip {
             text-align: end;
-            font-size: helpers.get-font-size(1.5);
+            font-size: h.get-font-size(1.5);
         }
 
         &.is-visible {

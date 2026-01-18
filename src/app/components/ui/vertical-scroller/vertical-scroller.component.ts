@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { BehaviorSubject } from 'rxjs';
 import { BrowserHelpers } from '../../../services/helpers';
+import { v4 } from 'uuid';
 
 const { isMobile } = BrowserHelpers;
 
@@ -35,6 +36,7 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
   @HostListener('pointerleave')
   pointerLeft = () => this.autoScroll();
 
+  protected hoveredIndex: number | null = null;
   protected canScroll = false;
   protected visibleItems$: BehaviorSubject<VerticalScrollerItem[]> = new BehaviorSubject([] as VerticalScrollerItem[]);
   protected isMobile = isMobile;
@@ -60,7 +62,7 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
     if (!this.items?.length || !this._scrollEl || !this.canScroll) return;
 
     this.autoScroll();
-    isMobile && this.setupGestures();
+    isMobile() && this.setupGestures();
   }
 
   ngOnDestroy(): void {
@@ -100,7 +102,8 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
     }
     
     this.canScroll = true;
-    const nextVisibleSet = Array.from({ length: this.numberVisibleItems + 2 }).map((_, offset) => this.items[this.calcIndex(offset)]);
+    const nextVisibleSet = Array.from({ length: this.numberVisibleItems + 2 }).map((_, offset) => JSON.parse(JSON.stringify(this.items[this.calcIndex(offset)])));
+    nextVisibleSet.forEach(i => (i as any).id = v4());
     this.visibleItems$.next(nextVisibleSet);
   }
 
@@ -110,12 +113,15 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
     if (!this._scrollEl) return;
     
     this._isScrolling = true;
+    const hoveredIndex = this.hoveredIndex;
+    this.hoveredIndex = null;
     const keyframes = this.getScrollAnimationKeyframes(direction);
     const anim = this._scrollEl.animate(keyframes, this._scrollAnimationOptions);
     
     anim.finished.then(_ => {
       anim.cancel();
       this._isScrolling = false;
+      this.hoveredIndex = hoveredIndex;
       requestAnimationFrame(_ => this.setVisibleItems());
     });
   }

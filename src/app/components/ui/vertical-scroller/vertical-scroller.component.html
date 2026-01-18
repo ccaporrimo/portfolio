@@ -5,9 +5,9 @@
 
 <div class="scroller-container" (wheel)="wheelScroll($event)">
   <div #scroller class="scroller">
-    @for(item of (visibleItems$ | async); track item)
+    @for(item of (visibleItems$ | async); track item.id; let index = $index)
     {
-      <ng-container [ngTemplateOutlet]="verticalScrollerItem" [ngTemplateOutletContext]="{ item }" />
+      <ng-container [ngTemplateOutlet]="verticalScrollerItem" [ngTemplateOutletContext]="{ item, index }" />
     }
   </div>  
 </div>
@@ -18,12 +18,19 @@
 }
 
 <!-- Template for each scroller item -->
-<ng-template #verticalScrollerItem let-item="item">
-  <div #scrollerItem class="item-container">
-    <img [src]="item.imageUrl" (click)="itemSelected.emit(item)" [alt]="item.title" (pointerenter)="!isMobile && item.hovered = true" (pointerleave)="!isMobile && item.hovered = false">
-    <div class="tooltip-container" [class.is-visible]="item.hovered">
+<ng-template #verticalScrollerItem let-item="item" let-index="index">
+  <div #scrollerItem class="item-container" (click)="itemSelected.emit(item)">
+    @if (item.imageUrl)
+    {
+      <img [src]="item.imageUrl" [alt]="item.title" (pointerenter)="!isMobile && item.hovered = true" (pointerleave)="!isMobile && item.hovered = false">
+    } @else if (item.svgIcon)
+    {
+      <mat-icon [svgIcon]="item.svgIcon" (pointerenter)="!isMobile && hoveredIndex = index" (pointerleave)="!isMobile && hoveredIndex = null"></mat-icon>
+    }    
+    <div class="tooltip-container" [class.is-visible]="hoveredIndex === index">
       <div class="tooltip">{{ item.title }}</div>
-    </div>    
+    </div>
+    @if (isMobile()) { <div class="mobile-title">{{ item.title }}</div> }
   </div>
 </ng-template>
 

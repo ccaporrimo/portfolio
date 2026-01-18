@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
 import { MatIcon } from "@angular/material/icon";
+import { BrowserHelpers } from '../../../services/helpers';
+
+const { isMobile } = BrowserHelpers;
 
 export enum Sides {
   Right,
@@ -13,7 +16,7 @@ export enum Sides {
   styleUrls: ['./side-drawer.component.scss'],
   imports: [MatIcon, CommonModule]
 })
-export class SideDrawerComponent implements OnInit {
+export class SideDrawerComponent implements OnInit, AfterViewInit {
   @Input() side: Sides = Sides.Left;
   @Input() slideDuration: number = 500;
 
@@ -21,17 +24,26 @@ export class SideDrawerComponent implements OnInit {
   protected isOpen = false;
   protected isClosing = false;
 
-  private set _animationDuration(val: number) {
-    this.animationDuration = `${val / 1000}s`;
-  }
-
+  private set _animationDuration(val: number) { this.animationDuration = `${val / 1000}s`; }
   private get _animationDuration() { return this.slideDuration; }
+
+  private get _openCloseToggleEl() { return this.openCloseToggleRef?.nativeElement; }
 
   @HostBinding('style.--animation-duration')
   animationDuration!: string;
 
+  @ViewChild('openCloseToggle') openCloseToggleRef!: ElementRef<HTMLDivElement>;
+
   ngOnInit(): void {
     this._animationDuration = this.slideDuration;
+  }
+
+  ngAfterViewInit(): void {
+    if (!isMobile) return;
+
+    const hammer = new Hammer(this._openCloseToggleEl);
+    hammer.on('swiperight', () => !this.isOpen && this.toggleDrawer());
+    hammer.on('swipeleft', () => this.isOpen && this.toggleDrawer());
   }
 
   toggleDrawer() {
