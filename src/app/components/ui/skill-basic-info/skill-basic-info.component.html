@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="row">
+    <div>Years experience:</div>
+    <div class="years-experience" [class.glowing]="basicInfo.yearsExperience > 5">{{ basicInfo.yearsExperience }}+</div>
+  </div>
+  <div class="row">
+    <div>Skill level:</div>
+    <div class="skill-level-container">{{ basicInfo.skillLevelDesc }}</div>
+  </div>
+  <div class="row">
+    <div>Currency:</div>
+    <div>{{ basicInfo.currency }}</div>
+  </div>
+</div>

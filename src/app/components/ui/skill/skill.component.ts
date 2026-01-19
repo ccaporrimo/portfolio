@@ -5,11 +5,14 @@ import { BehaviorSubject, of, Subject } from 'rxjs';
 import { SkillService } from '../../../services/skill.service';
 import { Skill } from '../../../interfaces/skill.interface';
 import { AnimationHelpers, BrowserHelpers } from '../../../services/helpers';
+import { SkillBasicInfoComponent } from "../skill-basic-info/skill-basic-info.component";
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-skill',
   templateUrl: './skill.component.html',
-  styleUrls: ['./skill.component.scss']
+  styleUrls: ['./skill.component.scss'],
+  imports: [SkillBasicInfoComponent, MatIcon]
 })
 export class SkillComponent implements OnInit {
   @Input() skill?: Skill;

@@ -1,11 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Skill } from '../interfaces/skill.interface';
+import { Skill, SkillBasicInfo } from '../interfaces/skill.interface';
 import { SkillTypeEnum } from '../constants/skill.constants';
 
 const S = SkillTypeEnum;
 
 @Injectable({ providedIn: 'root' })
 export class SkillService {
+  private readonly _basicInfosById: { [id in SkillTypeEnum]: SkillBasicInfo } = {
+    [S.CSharp]: { yearsExperience: 7, skillLevel: 9, skillLevelDesc: 'Fluent', currency: 'Continuous' },
+    [S.Aws]: { yearsExperience: 3, skillLevel: 5, skillLevelDesc: 'Functional', currency: 'Active' },
+    [S.DotNetCore]: { yearsExperience: 7, skillLevel: 8, skillLevelDesc: 'Adept', currency: 'Continuous' },
+    [S.Angular]: { yearsExperience: 8, skillLevel: 10, skillLevelDesc: 'Expert', currency: 'Continuous' },
+    [S.SqlServer]: { yearsExperience: 8, skillLevel: 6, skillLevelDesc: 'Skilled', currency: 'Active' },
+    [S.NgRx]: { yearsExperience: 6, skillLevel: 9, skillLevelDesc: 'Expert', currency: 'Continuous' },
+    [S.Redis]: { yearsExperience: 3, skillLevel: 5, skillLevelDesc: 'Functional', currency: 'Active' },
+    [S.Scss]: { yearsExperience: 5, skillLevel: 7, skillLevelDesc: 'Skilled', currency: 'Active' },
+    [S.RxJs]: { yearsExperience: 6, skillLevel: 9, skillLevelDesc: 'Adept', currency: 'Continuous' },
+    [S.TypeScript]: { yearsExperience: 8, skillLevel: 10, skillLevelDesc: 'Fluent', currency: 'Continuous' },
+    [S.AzureDevOps]: { yearsExperience: 6, skillLevel: 5, skillLevelDesc: 'Functional', currency: 'Active' },
+    [S.GoogleAnalytics]: { yearsExperience: 3, skillLevel: 5, skillLevelDesc: 'Integration', currency: 'Active' }
+  }
+
   public readonly skills: Skill[] = [
     { id: S.Aws, imageUrl: '/assets/images/skills/512px-Amazon_Web_Services_Logo.png', route: '/skills/aws', title: 'AWS' },
     { id: S.CSharp, imageUrl: '/assets/images/skills/csharp-128.png', route: '/skills/c-sharp', title: 'C#', tooltip: 'C# language' },
@@ -18,9 +33,12 @@ export class SkillService {
     { id: S.RxJs, imageUrl: '/assets/images/skills/Rx_Logo-512-512.png', route: '/skills/rxjs', title: 'RxJs & Reactive' },
     { id: S.TypeScript, imageUrl: '/assets/images/skills/ts-logo-256.png', route: '/skills/typescript', title: 'TypeScript', tooltip: 'TypeScript language' },  
     { id: S.AzureDevOps, imageUrl: '/assets/images/skills/Azure-DevOps.svg', route: '/skills/azure-devops', title: 'Azure DevOps' },
+    { id: S.GoogleAnalytics, imageUrl: '/assets/icons/google_analytics-icon.svg', route: '/skills/google-analytics', title: 'Google Analytics' }
   ];
 
-  constructor() { }
+  constructor() {
+    this.skills.forEach(skill => skill.id && (skill.basicInfo = this._basicInfosById[skill.id as SkillTypeEnum]));
+  }
 
   public readonly getSkillByRouteParam = (routeParam: string) => {
     const key = `/skills/${routeParam}`;

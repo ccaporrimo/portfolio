@@ -25,8 +25,14 @@ app-project {
 }
 
 app-skill-dialog {
-    .header mat-icon svg path {
-        fill: v.$colorPrimaryInv;
+    .header {
+        &.expert mat-icon svg path {
+            fill: v.$colorPrimaryDark;
+        }
+
+        mat-icon svg path {
+            fill: v.$colorPrimaryInv;
+        }        
     }
 }
 

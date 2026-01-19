@@ -1,6 +1,7 @@
 @use 'variables';
 @use 'helpers';
 @use 'material-overrides';
+@use 'globals';
 
 @import url("https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css");
 
@@ -9,18 +10,6 @@ html, body {
     min-height: 100dvh;
     overflow: hidden;
     letter-spacing: 1px;
-}
-
-a, .description p span[app-skill], .app-link {
-    color: var(--color-highlight-100);
-    text-decoration: none;
-    transition: color 0.3s;
-    cursor: pointer;
-
-    &:hover {
-        text-decoration: underline;
-        color: helpers.lighten-color(variables.$colorHighlight, 40);
-    }
 }
 
 body {
@@ -34,34 +23,3 @@ body {
     font-family: var(--body-font-family);
     font-size: var(--base-font-size);
 }
-
-.header-font, .header-font--regular, .header-font--bold, .header-font--italic, .header-font--bold-italic {    
-    font-family: var(--header-font-family);
-    font-weight: 400;
-    font-style: normal;
-
-    &--bold {
-        font-weight: 700;
-    }
-
-    &--italic {
-        font-style: italic;
-    }
-
-    &--bold-italic {
-        font-weight: 700;
-        font-style: italic;
-    }
-}
-
-// .description p span[app-skill] {
-//     color: var(--color-highlight-100);
-//     text-decoration: none;
-//     transition: color 0.3s, text-decoration 0.3s;
-//     cursor: pointer;
-
-//     &:hover {
-//         color: var(--color-highlight-300);
-//         text-decoration: underline;
-//     }
-// }

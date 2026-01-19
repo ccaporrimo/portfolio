@@ -1,0 +1,60 @@
+a, .description p span[app-skill], .app-link {
+    color: var(--color-highlight-200);
+    text-decoration: none;
+    transition: color 0.3s;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+        color: var(--color-highlight-100);
+    }
+}
+
+.header-font, .header-font--regular, .header-font--bold, .header-font--italic, .header-font--bold-italic {    
+    font-family: var(--header-font-family);
+    font-weight: 400;
+    font-style: normal;
+
+    &--bold {
+        font-weight: 700;
+    }
+
+    &--italic {
+        font-style: italic;
+    }
+
+    &--bold-italic {
+        font-weight: 700;
+        font-style: italic;
+    }
+}
+
+app-project .description p {
+    text-align: justify;
+}
+
+mat-icon {
+    &.gold {
+        filter: drop-shadow(0 0 2px gold);
+        
+        svg path {
+            fill: var(--glowing-fill);
+            @media (prefers-color-scheme: light) {
+                stroke: black;
+                stroke-width: 10;
+            }
+        }  
+    }
+    
+    &.silver {
+        filter: drop-shadow(0 0 2px silver);
+
+        svg path {
+            fill: var(--silver-fill);
+            @media (prefers-color-scheme: light) {
+                stroke: black;
+                stroke-width: 10;
+            }
+        }
+    }  
+}

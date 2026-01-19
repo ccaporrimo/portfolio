@@ -9,6 +9,7 @@ import { BrowserHelpers } from '../../../services/helpers';
 import { MatDialog } from '@angular/material/dialog';
 import { SkillDialogComponent } from '../../ui/skill-dialog/skill-dialog.component';
 import { ProjectBasicInfoComponent } from "../../ui/project-basic-info/project-basic-info.component";
+import { SkillTypeEnum } from '../../../constants/skill.constants';
 
 @Component({
   selector: 'app-project',
@@ -19,6 +20,7 @@ import { ProjectBasicInfoComponent } from "../../ui/project-basic-info/project-b
 export class ProjectComponent {
   protected currentProject: WritableSignal<PortfolioProject | null> = signal(null);
   protected isMobile: WritableSignal<boolean> = signal(false);
+  protected selectedSkillId: SkillTypeEnum | string | null = null;
 
   private get _el() { return this._elRef?.nativeElement as HTMLElement; }
 
@@ -39,9 +41,11 @@ export class ProjectComponent {
   protected viewSkill(skillId?: string | null) {
     if (!skillId) return;
 
+    !this.isMobile() && (this.selectedSkillId = skillId);
+
     if (this.isMobile()) {
       this._dialog.open(SkillDialogComponent, {
-        height: '40dvh',
+        height: '50dvh',
         width: '100dvw',
         panelClass: ['dialog-slide-up'],
         disableClose: true,
@@ -61,8 +65,11 @@ export class ProjectComponent {
     
     project.skills = project?.skillIds?.map(id => this._skillService.skills.find(s => s.id === id)).filter(s => !!s) ?? [];
     this.currentProject.set(project);
-    this._ngZone.onStable.asObservable().pipe(take(1)).subscribe(_ => 
-      this._el.querySelectorAll('[app-skill]').forEach(skillEl => skillEl.addEventListener('click', event => this.skillLinkClicked(event.target as HTMLElement))));
+    this._router.navigate([{ outlets: { rightpanel: null } }]);
+    this._ngZone.onStable.asObservable().pipe(take(1)).subscribe(_ => {      
+      this._el.querySelectorAll('[app-skill]').forEach(skillEl => skillEl.addEventListener('click', event => this.skillLinkClicked(event.target as HTMLElement)))
+      this._el.querySelector('.skill-row')?.scrollTo({ left: 0 });
+    });
   }
 
   private skillLinkClicked(skillEl: HTMLElement) {

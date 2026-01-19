@@ -21,7 +21,7 @@
   <div class="skill-row">
     @for (skill of _project.skills; track skill.id)
     {
-      <div class="skill-wrapper" (click)="viewSkill(skill.id)">
+      <div class="skill-wrapper" [class.selected]="selectedSkillId == skill.id" (click)="viewSkill(skill.id)">
         @if (!!skill.imageUrl) { <img [src]="skill.imageUrl"> }        
       </div>
     }

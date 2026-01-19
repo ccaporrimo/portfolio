@@ -9,5 +9,6 @@ export enum SkillTypeEnum {
     RxJs = 'rxjs',
     TypeScript = 'typescript',
     AzureDevOps = 'azure-devops',
-    Aws = 'aws'
+    Aws = 'aws',
+    GoogleAnalytics = 'google-analytics'
 }

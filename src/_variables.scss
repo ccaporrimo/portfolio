@@ -14,8 +14,10 @@ $colorHighlight: rgb(24, 50, 133);
     --portfolio-stroke-color: $colorPrimaryInv;
 
     --color-highlight-500: rgb(24, 50, 133);    
-    --color-highlight-300: oklch(from var(--color-highlight-500) calc(l + 0.15) c h);
-    --color-highlight-100: oklch(from var(--color-highlight-500) calc(l + 0.3) c h);
+    --color-highlight-400: oklch(from var(--color-highlight-500) calc(l + 0.10) c h);
+    --color-highlight-300: oklch(from var(--color-highlight-500) calc(l + 0.25) c h);
+    --color-highlight-200: oklch(from var(--color-highlight-500) calc(l + 0.40) c h);
+    --color-highlight-100: oklch(from var(--color-highlight-500) calc(l + 0.55) c h);
 
     --color-highlight-secondary: #668094;
     --color-highlight-tertiary: #99AAB7;
@@ -27,6 +29,9 @@ $colorHighlight: rgb(24, 50, 133);
     --color-neutral-400: oklch(from var(--color-neutral-500) calc(l + 0.05) c h);
     --color-neutral-300: #EBEEF1;
     --color-neutral-100: #F3F5F7;
+
+    --glowing-fill: rgb(255, 232, 99);
+    --silver-fill: rgb(203, 202, 202);
 
     // fonts
     --body-font-family: 'Inter', sans-serif;

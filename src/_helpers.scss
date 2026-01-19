@@ -1,19 +1,19 @@
-@use 'variables';
+@use 'variables' as v;
 
 .desktop-only {
-    @media (max-width: variables.$mobile-breakpoint) {
+    @media (max-width: v.$mobile-breakpoint) {
         display: none !important;
     }
 }
 
 .mobile-only {
-    @media (min-width: variables.$mobile-breakpoint) {
+    @media (min-width: v.$mobile-breakpoint) {
         display: none !important;
     }
 }
 
 @function is-mobile() {
-    @return (max-width: variables.$mobile-breakpoint) and (orientation: portrait);
+    @return (max-width: v.$mobile-breakpoint) and (orientation: portrait);
 }
 
 @function is-not-mobile() {
@@ -35,4 +35,9 @@
 
 @function get-font-size($target-size) {
     @return calc(var(--base-font-size) * $target-size);
+}
+
+@function weaken-inverted-primary($percent) {
+    $decimal: calc($percent / 100);
+    @return light-dark(rgba(v.$colorPrimaryDark, $decimal), rgba(v.$colorPrimaryLight, $decimal));
 }

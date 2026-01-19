@@ -1,4 +1,5 @@
 @use '../../../../variables' as v;
+@use '../../../../helpers' as h;
 
 :host {
     height: 100%;
@@ -14,13 +15,19 @@
     align-items: center;
 
     .header {
-        width: 90%;
+        width: 100%;
+        padding-right: 5%;
         height: 42px;
         display: flex;
-        justify-content: end;
+        justify-content: center;
         align-items: center;
+        background-color: h.darken-color(var(--color-neutral-900), 8);
+        border-top: 2px solid v.$colorPrimary;
+        border-bottom: 2px solid v.$colorPrimary;
 
-        border-bottom: 1px solid v.$colorPrimaryInv;
+        &.expert {
+            background-color: rgba(gold, 0.85);
+        }
 
         mat-icon {
             width: 36px;

@@ -3,9 +3,18 @@
   @if (!!_currentSkill)
   {
     <div class="page-header">
-      <img class="skill-logo" [src]="_currentSkill?.imageUrl">
-      <div class="title">{{ _currentSkill?.title }}</div>
+      <div class="title-and-logo">
+        <img class="skill-logo" [src]="_currentSkill?.imageUrl">
+        <div class="title">{{ _currentSkill?.title }}</div>
+      </div>      
+      @if ((_currentSkill.basicInfo?.skillLevel ?? 0) > 7)
+      {
+        @let _skillLevel = _currentSkill.basicInfo?.skillLevel ?? 0;
+        <mat-icon [class.gold]="_skillLevel > 8" [class.silver]="_skillLevel <= 8" title="Specialized" svgIcon="star_ribbon" />
+      }
     </div>
-    <div class="page-body"></div>
+    <div class="page-body">
+      @if(!!_currentSkill.basicInfo) { <app-skill-basic-info [basicInfo]="_currentSkill.basicInfo"></app-skill-basic-info> }
+    </div>
   }
 </div>

@@ -14,5 +14,9 @@ export const iconDefinitions: { [key: string]: string } = {
     'office_building': '/assets/icons/office_building.svg',
     'open_in_new': '/assets/icons/open_in_new.svg',
     'solo_effort': '/assets/icons/person_pencil.svg',
-    'team_effort': '/assets/icons/team_effort.svg'
+    'team_effort': '/assets/icons/team_effort.svg',
+    'star_ribbon': '/assets/icons/star_ribbon.svg',
+    'potted_plant': '/assets/icons/potted_plant.svg',
+    'check_ribbon': '/assets/icons/check_ribbon.svg',
+    'bottom_panel_close': '/assets/icons/bottom_panel_close.svg',
 }
