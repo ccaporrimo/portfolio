@@ -5,7 +5,7 @@
 
 <div class="scroller-container" (wheel)="wheelScroll($event)">
   <div #scroller class="scroller">
-    @for(item of (visibleItems$ | async); track item.id; let index = $index)
+    @for(item of (visibleItems$ | async); track item.visualId; let index = $index)
     {
       <ng-container [ngTemplateOutlet]="verticalScrollerItem" [ngTemplateOutletContext]="{ item, index }" />
     }
@@ -22,10 +22,10 @@
   <div #scrollerItem class="item-container" (click)="itemSelected.emit(item)">
     @if (item.imageUrl)
     {
-      <img [src]="item.imageUrl" [alt]="item.title" (pointerenter)="!isMobile && item.hovered = true" (pointerleave)="!isMobile && item.hovered = false">
+      <img [src]="item.imageUrl" [alt]="item.title" (pointerenter)="!isMobile() && hoveredIndex = index" (pointerleave)="!isMobile() && hoveredIndex = null">
     } @else if (item.svgIcon)
     {
-      <mat-icon [svgIcon]="item.svgIcon" (pointerenter)="!isMobile && hoveredIndex = index" (pointerleave)="!isMobile && hoveredIndex = null"></mat-icon>
+      <mat-icon [svgIcon]="item.svgIcon" (pointerenter)="!isMobile() && hoveredIndex = index" (pointerleave)="!isMobile() && hoveredIndex = null"></mat-icon>
     }    
     <div class="tooltip-container" [class.is-visible]="hoveredIndex === index">
       <div class="tooltip">{{ item.title }}</div>

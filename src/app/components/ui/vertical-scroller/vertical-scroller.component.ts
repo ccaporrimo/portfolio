@@ -102,8 +102,8 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
     }
     
     this.canScroll = true;
-    const nextVisibleSet = Array.from({ length: this.numberVisibleItems + 2 }).map((_, offset) => JSON.parse(JSON.stringify(this.items[this.calcIndex(offset)])));
-    nextVisibleSet.forEach(i => (i as any).id = v4());
+    const nextVisibleSet = Array.from({ length: this.numberVisibleItems + 2 }).map((_, offset) => JSON.parse(JSON.stringify(this.items[this.calcIndex(offset)])) as VerticalScrollerItem);
+    nextVisibleSet.forEach(i => i.visualId = v4());
     this.visibleItems$.next(nextVisibleSet);
   }
 

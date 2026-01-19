@@ -5,6 +5,9 @@ export interface VerticalScrollerItem {
     title: string;
     route: string;
     tooltip?: string;
+
+    // UI only
+    visualId?: string;
 }
 
 export type ScrollDirection = 'up' | 'down';
