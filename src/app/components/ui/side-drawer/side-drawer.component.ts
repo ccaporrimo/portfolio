@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
 import { MatIcon } from "@angular/material/icon";
 import { BrowserHelpers } from '../../../services/helpers';
+import { of, Subject } from 'rxjs';
 
 const { isMobile } = BrowserHelpers;
 
@@ -20,8 +21,9 @@ export class SideDrawerComponent implements OnInit, AfterViewInit {
   @Input() side: Sides = Sides.Left;
   @Input() slideDuration: number = 500;
 
-  protected Sides = Sides;
-  protected isOpen = false;
+  public isOpen = false;
+  
+  protected Sides = Sides;  
   protected isClosing = false;
 
   private set _animationDuration(val: number) { this.animationDuration = `${val / 1000}s`; }
@@ -42,9 +44,22 @@ export class SideDrawerComponent implements OnInit, AfterViewInit {
     if (!isMobile) return;
 
     const hammer = new Hammer(this._openCloseToggleEl);
-    hammer.on('swiperight', () => !this.isOpen && this.toggleDrawer());
-    hammer.on('swipeleft', () => this.isOpen && this.toggleDrawer());
+    hammer.on('swiperight', () => this.openDrawer());
+    hammer.on('swipeleft', () => this.closeDrawer$());
   }
+
+  public closeDrawer$() {
+    if (!this.isOpen) {
+      return of(void 0);
+    }
+
+    const subj$ = new Subject<void>();
+    this.toggleDrawer();
+    setTimeout(() => { subj$.next(); subj$.complete(); }, this._animationDuration / 2);
+
+    return subj$.asObservable();
+  }
+  public openDrawer() { !this.isOpen && this.toggleDrawer(); }
 
   toggleDrawer() {
     if (!this.isOpen) {
@@ -55,9 +70,7 @@ export class SideDrawerComponent implements OnInit, AfterViewInit {
     if (this.isOpen) {
       this.isClosing = true;
       this.isOpen = false;
-      setTimeout(() => {        
-        this.isClosing = false;
-      }, this._animationDuration);
+      setTimeout(() => this.isClosing = false, this._animationDuration);
     }
   }
 

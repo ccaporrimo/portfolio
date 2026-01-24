@@ -1,4 +1,4 @@
-import { Component, HostBinding, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, signal, ViewChild } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { VerticalScrollerComponent } from "../ui/vertical-scroller/vertical-scroller.component";
 import { SideDrawerComponent } from "../ui/side-drawer/side-drawer.component";
@@ -7,6 +7,8 @@ import { VerticalScrollerItem } from '../../interfaces/vertical-scroller.interfa
 import { AnimationHelpers, BrowserHelpers } from '../../services/helpers';
 import { SkillService } from '../../services/skill.service';
 import { ProjectService } from '../../services/project.service';
+import { MenuItem } from '../../interfaces/ui.interface';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-main-content',
@@ -16,6 +18,7 @@ import { ProjectService } from '../../services/project.service';
 })
 export class MainContentComponent {  
   @ViewChild('sideDrawer') sideDrawer!: SideDrawerComponent;
+  @ViewChild('routerContainer') routerContainerRef!: ElementRef<HTMLElement>;
 
   private _fadeTiming: number = 250;
   @HostBinding('style.--main-panel-fade-timing')
@@ -26,22 +29,38 @@ export class MainContentComponent {
   protected skillItems: VerticalScrollerItem[];
   protected projectItems: VerticalScrollerItem[];
 
+  private get _routerContainerEl() { return this.routerContainerRef?.nativeElement; }
+
   constructor(private _router: Router, private _skillService: SkillService, private _projectService: ProjectService) {
     this.updateIsDesktop();
     window.addEventListener('resize', () => this.updateIsDesktop());
     this.skillItems = this._skillService.skills;
     this.projectItems = this._projectService.projects;
+    this._projectService.toggleSlideout$.subscribe(_ => this.sideDrawer?.toggleDrawer());
   }
 
-  public skillSelected(item: VerticalScrollerItem) {
-    this.sideDrawer?.toggleDrawer();
-    this.animateSkillChange([item.route]);
+  public verticalScrollerItemSelected(item: VerticalScrollerItem) {
+    this.animateRouteChange([item.route]);
   }
 
-  private animateSkillChange(route: string[]) {
-    const drawerDelay = (!!this.sideDrawer ? this.sideDrawer.slideDuration : 0) / 2;
-    const { deferredTimeout } = AnimationHelpers;
-    deferredTimeout(() => this.fadeOut = true, drawerDelay).then(_ => deferredTimeout(() => { this.fadeOut = false; this._router.navigate(route) }, this._fadeTiming));
+  public menuItemSelected(menuItem: MenuItem) {
+    if (!menuItem?.route?.length) return;
+        
+    this.animateRouteChange(menuItem.route);
+  }
+
+  private animateRouteChange(route: string[]) {
+    const { slideLeft$, slideInFromRight$ } = AnimationHelpers;
+
+    const closeDrawer$ = this.sideDrawer?.closeDrawer$() ?? of(void 0);
+    closeDrawer$.subscribe(() => {
+      const el = this._routerContainerEl;
+      if (!el) return;
+      slideLeft$(el, '100%', this._fadeTiming).subscribe(() => {
+        this._router.navigate(route);
+        slideInFromRight$(el, '100%', this._fadeTiming).subscribe();
+      });
+    });
   }
 
   private updateIsDesktop() {    

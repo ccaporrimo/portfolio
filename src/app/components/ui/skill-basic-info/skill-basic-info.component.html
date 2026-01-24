@@ -5,7 +5,7 @@
   </div>
   <div class="row">
     <div>Skill level:</div>
-    <div class="skill-level-container">{{ basicInfo.skillLevelDesc }}</div>
+    <div class="skill-level-container" [class.glowing]="basicInfo.skillLevel > 8">{{ basicInfo.skillLevelDesc }}</div>
   </div>
   <div class="row">
     <div>Currency:</div>

@@ -1,0 +1,73 @@
+@use '../../../../variables' as v;
+
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    height: 100%;
+    width: 100%;
+}
+
+.timeline-container {
+    width: 6px;
+    height: 90%;
+    background-color: v.$colorPrimary;
+    border-radius: 9999px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    .timeline {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 0%;
+        // background-color: var(--color-highlight-400);
+        background: linear-gradient(to bottom, var(--color-highlight-300), var(--color-highlight-500));
+
+        animation: fill-timeline 4s infinite alternate;
+    }
+}
+
+@keyframes fill-timeline {
+    from {
+        height: 0%;
+    }
+    to {
+        height: 100%;
+    }
+}
+
+.timeline-node {
+    width: 50%;
+    padding: 0.67rem 1rem;
+    box-sizing: border-box;
+    border: 1px solid v.$colorPrimaryInv;
+    border-radius: 16px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-image:
+    linear-gradient(rgba(0, 0, 0, 0.67) 1px, transparent 1px),
+    linear-gradient(to right, rgba(0, 0, 0, 0.67) 1px, transparent 1px);
+
+    background-size: 2px 2px;
+}
+
+.image-container {
+    height: auto;
+    width: 100%;
+    object-fit: contain;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}

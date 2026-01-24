@@ -1,11 +1,16 @@
 <header>
   <div class="panel">
-    <div class="image-wrapper desktop-only">
+    @if (!isMobile())
+    {
+    <div class="image-wrapper">
       <img src="assets/images/cc_logo_transparent.png" alt="Logo">
     </div>
+    }    
     <div class="layout-wrapper">
       <div class="title header-font">{{ profileTitle }}</div>
-      <div class="subtitle mobile-only">
+      @if (isMobile())
+      {
+      <div class="subtitle">
         <div class="row-space-between">
           <div>{{ profileSubtitleParts[0] }}</div><div>|</div><div>{{ profileSubtitleParts[1] }}</div>
         </div>
@@ -13,6 +18,12 @@
           <div>{{ profileSubtitleParts[2] }}</div>
         </div>
       </div>
+      <div class="kebab-container">
+        <app-header-menu [menuItems]="menuItems" (menuItemSelected)="headerMenuItemSelected.emit($event)" />
+      </div>
+      }
+      @else
+      {
       <div class="subtitle desktop-only">
         <div class="row-space-between">
           @for(profileSubtitlePart of profileSubtitleParts; track profileSubtitlePart; let last = $last)
@@ -25,7 +36,8 @@
           }
         </div>
       </div>
-    </div>
-    <div class="language-selection"><div class="fi fi-us"></div></div>
+      }
+    </div>    
+    <!-- <div class="language-selection"><div class="fi fi-us"></div></div> -->
   </div>
 </header>

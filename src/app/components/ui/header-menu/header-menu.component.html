@@ -1,0 +1,13 @@
+<button matButton [matMenuTriggerFor]="menu"><mat-icon svgIcon="hamburger_menu" /></button>
+<mat-menu #menu="matMenu">
+  @for (menuItem of menuItems; track menuItem.id)
+  {
+    <ng-container [ngTemplateOutlet]="menuItemTemplate" [ngTemplateOutletContext]="{ menuItem }" />
+  }
+</mat-menu>
+
+<ng-template #menuItemTemplate let-menuItem="menuItem">
+    <button mat-menu-item (click)="menuItemClicked(menuItem)">
+      <mat-icon class="menu-icon" [svgIcon]="menuItem.svgIcon" />{{ menuItem.label }}
+    </button>  
+</ng-template>

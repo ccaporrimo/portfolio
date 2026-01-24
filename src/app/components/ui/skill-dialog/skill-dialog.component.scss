@@ -6,6 +6,8 @@
     width: 100%;
 }
 
+$backgroundLight: rgba(v.$colorPrimaryDark, 10);
+
 .container {
     height: 100%;
     width: 100%;
@@ -16,17 +18,26 @@
 
     .header {
         width: 100%;
-        padding-right: 5%;
         height: 42px;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: h.darken-color(var(--color-neutral-900), 8);
+        background-color: light-dark(rgba(0, 0, 0, 0.05), h.darken-color(var(--color-neutral-900), 8));
         border-top: 2px solid v.$colorPrimary;
         border-bottom: 2px solid v.$colorPrimary;
 
-        &.expert {
-            background-color: rgba(gold, 0.85);
+        .line {
+            height: 6px;
+            width: 45%;
+            &.expert {
+                background-color: var(--glowing-fill);
+                box-shadow: 0 0 8px gold;
+            }
+
+            &.adept {
+                background-color: var(--silver-fill);
+                box-shadow: 0 0 8px silver;
+            }
         }
 
         mat-icon {

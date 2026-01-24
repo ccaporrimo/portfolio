@@ -39,10 +39,30 @@ export namespace AnimationHelpers {
     export const animateEl$ = (el: HTMLElement, keyframes: Keyframe[], options?: KeyframeAnimationOptions) => {
         return from(el.animate(keyframes, options).finished).pipe(take(1));
     }
+
+    export const slideLeft$ = (el: HTMLElement, distance: string, duration: number, persist: boolean = false) => {
+        const keyframes: Keyframe[] = [
+            { transform: 'translateX(0)' },
+            { transform: `translateX(-${distance})`}
+        ];
+        const options: KeyframeAnimationOptions = { duration, easing: 'ease-in-out' };
+        persist && (options.fill = 'forwards');
+        return animateEl$(el, keyframes, options);
+    }
+
+    export const slideInFromRight$ = (el: HTMLElement, distance: string, duration: number, persist: boolean = false) => {
+        const keyframes: Keyframe[] = [
+            { transform: `translateX(${distance})` },
+            { transform: 'translateX(0)'}
+        ];
+        const options: KeyframeAnimationOptions = { duration, easing: 'ease-in-out' };
+        persist && (options.fill = 'forwards');
+        return animateEl$(el, keyframes, options);
+    }
 }
 
 export namespace BrowserHelpers {
     export const isLandscape = () => window.matchMedia('(orientation: landscape)').matches;
     export const isLargeWidth = () => window.innerWidth > 1024;
-    export const isMobile = () => !isLandscape() && !isLargeWidth();
+    export const isMobile = () => !isLargeWidth();
 }

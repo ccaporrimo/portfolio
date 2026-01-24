@@ -11,9 +11,11 @@ $colorHighlight: rgb(24, 50, 133);
     --color-primary-dark: $colorPrimaryDark;
     --color-primary-light: $colorPrimaryLight;
     --color-primary: light-dark($colorPrimaryLight, $colorPrimaryDark);
+    --color-primary-inv: light-dark($colorPrimaryDark, $colorPrimaryLight);
     --portfolio-stroke-color: $colorPrimaryInv;
-
-    --color-highlight-500: rgb(24, 50, 133);    
+    
+    --color-highlight-500: rgb(24, 50, 133);
+    --color-highlight-600: oklch(from var(--color-highlight-500) calc(l - 0.05) c h);
     --color-highlight-400: oklch(from var(--color-highlight-500) calc(l + 0.10) c h);
     --color-highlight-300: oklch(from var(--color-highlight-500) calc(l + 0.25) c h);
     --color-highlight-200: oklch(from var(--color-highlight-500) calc(l + 0.40) c h);
@@ -29,6 +31,7 @@ $colorHighlight: rgb(24, 50, 133);
     --color-neutral-400: oklch(from var(--color-neutral-500) calc(l + 0.05) c h);
     --color-neutral-300: #EBEEF1;
     --color-neutral-100: #F3F5F7;
+    --color-neutral-0: #fff;
 
     --glowing-fill: rgb(255, 232, 99);
     --silver-fill: rgb(203, 202, 202);
