@@ -19,4 +19,12 @@ export const iconDefinitions: { [key: string]: string } = {
     'potted_plant': '/assets/icons/potted_plant.svg',
     'check_ribbon': '/assets/icons/check_ribbon.svg',
     'bottom_panel_close': '/assets/icons/bottom_panel_close.svg',
+    'menu_kebab': '/assets/icons/menu_kebab.svg',
+    'hamburger_menu': '/assets/icons/hamburger_menu.svg',
+    'resume_icon': '/assets/icons/resume_icon.svg',
+    'projects_icon': '/assets/icons/projects_icon.svg',
+    'work_history_icon': '/assets/icons/work_history_icon.svg',
+    'contact_icon': '/assets/icons/contact_icon_twotone.svg',
+    'bio_icon': '/assets/icons/bio_icon.svg',
+    'download_icon': '/assets/icons/download.svg'
 }

@@ -1,0 +1,54 @@
+@use '../../../../helpers' as h;
+@use '../../../../variables' as v;
+
+:host {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.title-row {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+        font-size: h.get-font-size(1.33);
+    }
+
+    button.download {        
+        background-color: var(--color-highlight-600);
+        border: none;
+        border-radius: 6px;
+        color: var(--color-neutral-100);
+
+        display: grid;
+        place-items: center;
+        width: fit-content;
+        padding: 0.5rem 1rem;
+        font-size: h.get-font-size(1);
+        cursor: pointer;
+        filter: brightness(1);
+        transform: scale(1);
+        transform-origin: center;    
+
+        transition: filter 0.3s, transform 0.3s;
+
+        &:hover {
+            @media (min-width: v.$mobile-breakpoint) {
+                filter: brightness(1.2);
+                transform: scale(1.1);
+            }            
+        }
+    }
+}
+
+.resume-embed {
+    flex-grow: 1;
+}

@@ -21,16 +21,16 @@
             }
         }
 
+        .glowing {
+            color: var(--glowing-fill);
+
+            @media (prefers-color-scheme: light) {
+                -webkit-text-stroke: rgba(0, 0, 0, 0.5) 1px;
+            }
+        }
+
         .years-experience {
             font-size: h.get-font-size(1.5);
-
-            &.glowing {
-                color: var(--glowing-fill);
-
-                @media (prefers-color-scheme: light) {
-                    -webkit-text-stroke: rgba(0, 0, 0, 0.5) 1px;
-                }
-            }
         }
 
         :first-child {

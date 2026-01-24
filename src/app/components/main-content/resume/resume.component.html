@@ -1,0 +1,12 @@
+<div class="title-row">
+  <div class="title">Resume {{ today | date: 'yyyy' }}</div>
+  <a [href]="resumeUrl" download="ccaporrimo_resume.pdf">
+    <button class="download"><mat-icon svgIcon="download_icon" /></button>
+  </a>
+</div>
+<embed
+  class="resume-embed"
+  [src]="resumeUrl"
+  type="application/pdf"
+  width="100%"
+/>

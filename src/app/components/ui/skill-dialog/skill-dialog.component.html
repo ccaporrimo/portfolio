@@ -1,6 +1,8 @@
 <div class="container">
-  <div class="header" [class.expert]="(skill.basicInfo?.skillLevel ?? 0) > 8">
+  <div class="header">
+    <div class="line" [class.expert]="isExpert" [class.adept]="isAdept"></div>
     <div (click)="close()"><mat-icon svgIcon="bottom_panel_close"></mat-icon></div>
+    <div class="line" [class.expert]="isExpert" [class.adept]="isAdept"></div>
   </div>
   <mat-dialog-content [style.width]="'100%'">
   @if (!!skill)

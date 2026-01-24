@@ -13,7 +13,7 @@
     </app-side-drawer>
   }
   <div class="panel">
-    <div class="router-container" [class.fade-out]="fadeOut"><router-outlet /></div>
+    <div #routerContainer class="router-container" [class.fade-out]="fadeOut"><router-outlet /></div>
   </div>
   @if (isDesktop())
   {
@@ -22,5 +22,5 @@
 </main>
 
 <ng-template #verticalScroller>
-  <app-vertical-scroller [numberVisibleItems]="4" [items]="projectItems" (itemSelected)="skillSelected($event)" />
+  <app-vertical-scroller [numberVisibleItems]="4" [items]="projectItems" (itemSelected)="verticalScrollerItemSelected($event)" />
 </ng-template>

@@ -4,6 +4,7 @@ import { SkillTypeEnum } from '../constants/skill.constants';
 import { Companies, ProjectIdEnum } from '../constants/project.constants';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Year } from './helpers';
+import { BehaviorSubject } from 'rxjs';
 
 const S = SkillTypeEnum;
 const Id = ProjectIdEnum;
@@ -18,6 +19,7 @@ const onlineBookingDescription = `<p>I led a full rearchitecture of the online b
 })
 export class ProjectService {
   public readonly projects: PortfolioProject[];
+  public readonly toggleSlideout$: BehaviorSubject<void>  = new BehaviorSubject<void>(undefined);
 
   private _basicInfosById: { [id in ProjectIdEnum]: ProjectBasicInfo } = {
     [Id.Analytics]: { soloEffort: true, timespan: { startDate: new Year(2024), endDate: new Year(2025) }, company: Companies.Meevo },
@@ -41,13 +43,17 @@ export class ProjectService {
 
   constructor(private _sanitizer: DomSanitizer) {
     this.projects = this._projects.map(p => ({
-    ...p,
-    title: p.title ?? '',
-    route: '/projects/' + p.id,
-    description: p.description && typeof(p.description) == 'string'
-      ? this._sanitizer.bypassSecurityTrustHtml(p.description)
-      : '',
-    basicInfo: this._basicInfosById[p.id as ProjectIdEnum]
-  }));
+      ...p,
+      title: p.title ?? '',
+      route: '/projects/' + p.id,
+      description: p.description && typeof(p.description) == 'string'
+        ? this._sanitizer.bypassSecurityTrustHtml(p.description)
+        : '',
+      basicInfo: this._basicInfosById[p.id as ProjectIdEnum]
+    }));
+  }
+
+  toggleProjectSlideout() {
+    this.toggleSlideout$.next();
   }
 }
