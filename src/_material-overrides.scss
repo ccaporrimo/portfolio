@@ -89,3 +89,12 @@ app-header-menu mat-icon[svgicon="hamburger_menu"] svg path {
     0% { transform: translateY(0%); }
     100% { transform: translateY(100%); }
 }
+
+app-timeline .timeline-node .badge-icon mat-icon {
+    height: 32px;
+    width: 32px;
+    background-color: v.$colorPrimaryLight;
+    svg path {
+        fill: v.$colorPrimaryDark;
+    }
+}

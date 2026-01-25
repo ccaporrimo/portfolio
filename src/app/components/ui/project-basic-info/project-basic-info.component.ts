@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ProjectBasicInfo } from '../../../interfaces/project.interface';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-project-basic-info',
   templateUrl: './project-basic-info.component.html',
   styleUrls: ['./project-basic-info.component.scss'],
-  imports: [DatePipe, MatIcon]
+  imports: [DatePipe, MatIcon, NgTemplateOutlet]
 })
 export class ProjectBasicInfoComponent {
   @Input() basicInfo!: ProjectBasicInfo;

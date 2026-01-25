@@ -1,24 +1,33 @@
 @use '../../../../variables' as v;
+@use '../../../../helpers' as h;
 
 :host {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
     height: 100%;
     width: 100%;
+    position: relative;
+
+    --timeline-width: 10px;
+    --timeline-branch-height: 6px;
+    --timeline-total-height: 90%;
+    --full-branch-height: 60px;
+    --fill-color: var(--color-neutral-500);
 }
 
 .timeline-container {
-    width: 6px;
-    height: 90%;
+    width: var(--timeline-width);
+    height: var(--timeline-total-height, 90%);
     background-color: v.$colorPrimary;
     border-radius: 9999px;
     overflow: hidden;
-    position: relative;
+    
     display: flex;
     flex-direction: column;
+
+    position: relative;
 
     .timeline {
         position: relative;
@@ -26,48 +35,148 @@
         left: 0;
         width: 100%;
         height: 0%;
-        // background-color: var(--color-highlight-400);
-        background: linear-gradient(to bottom, var(--color-highlight-300), var(--color-highlight-500));
-
-        animation: fill-timeline 4s infinite alternate;
+        // background: linear-gradient(to bottom, var(--color-highlight-300), var(--color-highlight-500));
+        background-color: var(--fill-color);
     }
 }
 
-@keyframes fill-timeline {
-    from {
-        height: 0%;
+.branch-container {
+    height: var(--timeline-total-height);
+    width: 100%;
+    position: absolute;
+    top: 5%;
+    left: 0;
+
+    .branch {
+        width: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: var(--full-branch-height);
+
+        padding: 0 3rem;
+        box-sizing: border-box;
+
+        &.right {
+            justify-content: end;
+        }
     }
-    to {
-        height: 100%;
+
+    .timeline-branch-container {
+        position: absolute;
+        height: var(--timeline-branch-height);
+        width: 33%;
+        background-color: v.$colorPrimary;
+        overflow: hidden;
+
+        &.right .timeline-branch {
+            // background: linear-gradient(to right, var(--color-highlight-500), var(--color-highlight-300));
+            background-color: var(--fill-color);
+        }
+
+        .timeline-branch {
+            position: relative;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background-color: var(--fill-color);
+            // background: linear-gradient(to left, var(--color-highlight-500), var(--color-highlight-300));            
+        }
+
+        &.left {
+            right: calc(50% + var(--timeline-width) / 2);
+            border-top-left-radius: 9999px;
+            border-bottom-left-radius: 9999px;
+
+            .timeline-branch {
+                position: absolute;
+                right: 0;
+                left: auto;
+            }
+        }
+
+        &.right {
+            left: calc(50% + var(--timeline-width) / 2);
+            border-top-right-radius: 9999px;
+            border-bottom-right-radius: 9999px;
+        }
     }
 }
 
 .timeline-node {
-    width: 50%;
+    width: 10%;
     padding: 0.67rem 1rem;
     box-sizing: border-box;
     border: 1px solid v.$colorPrimaryInv;
-    border-radius: 16px;
+    border-radius: 6px;
+
+    cursor: pointer;
 
     display: flex;
     justify-content: center;
     align-items: center;
+
+    position: relative;
 
     background-image:
     linear-gradient(rgba(0, 0, 0, 0.67) 1px, transparent 1px),
     linear-gradient(to right, rgba(0, 0, 0, 0.67) 1px, transparent 1px);
 
     background-size: 2px 2px;
+    
+    transition: box-shadow 0.15s, transform 0.15s, filter 0.15s;
+    filter: brightness(1);
+    transform: scale(1);
+    transform-origin: center;
+
+    &.focus {
+        box-shadow: 0px 0px 3px 1px var(--color-neutral-600);
+        filter: brightness(1.33);
+        transform: scale(1.33);
+    }
+
+    .badge-icon {
+        position: absolute;
+        top: -12px;
+        right: -12px;
+        border-radius: 9999px;
+        overflow: hidden;
+        aspect-ratio: 1 / 1;
+
+        box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    }
 }
 
 .image-container {
     height: auto;
     width: 100%;
-    object-fit: contain;
+    object-fit: contain;    
 
     img {
         width: 100%;
         height: 100%;
         object-fit: contain;
     }
+}
+
+.node-year {
+    top: -20%;
+    position: relative;
+    font-size: h.get-font-size(1.25);
+
+    color: v.$colorPrimary;
+    transition: color 0.15s;
+
+    &.year-hovered {
+        color: v.$colorPrimaryInv;
+    }
+}
+
+.branch.right .node-year {
+    right: 15%;
+}
+
+.branch:not(.right) .node-year {
+    left: 15%;
 }

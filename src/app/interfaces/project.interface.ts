@@ -3,11 +3,13 @@ import { SkillTypeEnum } from "../constants/skill.constants";
 import { Skill } from "./skill.interface";
 import { VerticalScrollerItem } from "./vertical-scroller.interface";
 
+export type EffortType = 'solo' | 'team' | 'lead'
+
 export interface ProjectBasicInfo {
     timespan?: { startDate: Date, endDate?: Date };
     company?: Company;
     website?: string;
-    soloEffort: boolean;
+    effortType: EffortType;
 }
 
 export interface PortfolioProject extends VerticalScrollerItem {

@@ -19,8 +19,12 @@
   {
     <div class="row">Personal Project</div>
   }
-  @if (basicInfo.soloEffort) { <div class="row"><mat-icon [style.width]="'24px'" [style.height]="'24px'" svgIcon="solo_effort" /><span>Solo Effort</span></div> }
-  @else { <div class="row"><mat-icon [style.width]="'24px'" [style.height]="'24px'" svgIcon="team_effort" /><span>Team Effort</span></div> }
+  @switch (basicInfo.effortType)
+  {
+    @case ('solo') { <div class="row"><mat-icon [style.width]="'24px'" [style.height]="'24px'" svgIcon="solo_effort" /><span>Solo Effort</span></div> }
+    @case ('team') { <div class="row"><mat-icon [style.width]="'24px'" [style.height]="'24px'" svgIcon="teamwork" /><span>Team Effort</span></div> }
+    @case ('lead') { <div class="row"><mat-icon [style.width]="'24px'" [style.height]="'24px'" svgIcon="team_effort" /><span>Team Lead</span></div> }
+  }
 </div>
 @if (basicInfo.website)
 {
@@ -29,7 +33,3 @@
     <div class="tiny"><mat-icon svgIcon="open_in_new" /></div>
   </div>
 }
-
-<ng-template #company>
-
-</ng-template>

@@ -26,5 +26,10 @@ export const iconDefinitions: { [key: string]: string } = {
     'work_history_icon': '/assets/icons/work_history_icon.svg',
     'contact_icon': '/assets/icons/contact_icon_twotone.svg',
     'bio_icon': '/assets/icons/bio_icon.svg',
-    'download_icon': '/assets/icons/download.svg'
+    'download_icon': '/assets/icons/download.svg',
+    'teamwork': '/assets/icons/teamwork.svg',
+    'this_website': '/assets/images/projects/this_website.svg',
+    'code_icon': '/assets/icons/code_icon.svg',
+    'rocket_ship': '/assets/icons/rocket_ship.svg',
+    'architecture': '/assets/icons/architecture.svg'
 }

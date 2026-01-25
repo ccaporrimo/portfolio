@@ -7,7 +7,8 @@ export enum ProjectIdEnum {
     Scheduler = 'scheduler',
     CustomBranding = 'custom-branding',
     Security = 'security',
-    MultiTenantData = 'multi-tenant-data',    
+    MultiTenantData = 'multi-tenant-data',
+    ProfessionalPortfolio = 'professional-portfolio'
 }
 
 export namespace Companies {
