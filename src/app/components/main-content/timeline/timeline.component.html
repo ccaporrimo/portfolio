@@ -1,3 +1,5 @@
+<div class="page-title">Historical Timeline</div>
+<div class="main-container">
 <div class="timeline-container">
   <div class="timeline" #timeline></div>
 </div>
@@ -5,7 +7,7 @@
   @for(branch of branches; track $index)
   {
     @let isRight = ($index + 1) % 2 === 0;
-    <div class="branch" [style.top.%]="branch.position" [class.right]="isRight">
+    <div class="branch" [style.top.px]="branch.position * 30" [class.right]="isRight">
       @if (!isRight) { <ng-container [ngTemplateOutlet]="nodeLeaf" [ngTemplateOutletContext]="{ branch, index: $index }" /> }
       <div class="node-year" [class.year-hovered]="branch.isHovered">{{ branch.year | date:'yyyy' }}</div>
       <div [ngClass]="isRight ? 'right' : 'left'" class="timeline-branch-container">        
@@ -24,3 +26,4 @@
     </div>
   </div>
 </ng-template>
+</div>

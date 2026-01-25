@@ -1,11 +1,12 @@
 import { DatePipe, NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewChildren, QueryList, AfterViewInit, HostBinding, OnInit } from '@angular/core';
 import { TimelineNode, TimelineNodeBranch } from '../../../interfaces/timeline-node.interface';
-import { Year } from '../../../services/helpers';
+import { BrowserHelpers, Year } from '../../../services/helpers';
 import { MatIcon } from "@angular/material/icon";
 
 const fBranchHeight = 'var(--full-branch-height)';
 const tBranchHeight = 'var(--timeline-branch-height)';
+const { isMobile } = BrowserHelpers;
 
 @Component({
   selector: 'app-timeline',
@@ -13,10 +14,13 @@ const tBranchHeight = 'var(--timeline-branch-height)';
   styleUrls: ['./timeline.component.scss'],
   imports: [NgClass, DatePipe, MatIcon, NgTemplateOutlet]
 })
-export class TimelineComponent {
+export class TimelineComponent implements OnInit {
   @ViewChild('timeline') timelineElRef!: ElementRef<HTMLDivElement>;
   @ViewChildren('timelineBranch') timelineBranchElRef!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('imageEl') imageElRefs!: QueryList<ElementRef<HTMLElement>>;
+
+  @HostBinding('style.--timeline-total-height')
+  timelineTotalHeight: string = '90%';
 
   public timelineNodes: TimelineNode[] = [
     { imgSrc: 'assets/images/history/us_navy.png', year: new Year(2004) },
@@ -28,7 +32,7 @@ export class TimelineComponent {
     { imgSrc: 'assets/images/meevo-powered-by-millennium-logo-wht-nav.svg', year: new Year(2021), badgeIcon: 'rocket_ship' },
     { imgSrc: 'assets/images/meevo-powered-by-millennium-logo-wht-nav.svg', year: new Year(2024), badgeIcon: 'architecture' },
   ]
-  public branches: TimelineNodeBranch[] = this.timelineNodes.map((node, idx) => ({ ...node, id: idx, position: 3 * (idx+1), isHovered: false }));
+  public branches: TimelineNodeBranch[] = this.timelineNodes.map((node, idx) => ({ ...node, id: idx, position: idx+1, isHovered: false }));
 
   private _defaultOptions: KeyframeAnimationOptions = { duration: 150, easing: 'ease-in', fill: 'none' };
   private _timelineAnim: Animation | null = null;
@@ -38,7 +42,13 @@ export class TimelineComponent {
   private get _timelineEl() { return this.timelineElRef?.nativeElement; }
   private get _el() { return this._elRef.nativeElement as HTMLElement; }
 
-  constructor(private _elRef: ElementRef) {}
+  constructor(private _elRef: ElementRef) { }
+
+  ngOnInit(): void {
+    const fbh = fBranchHeight;
+    const tbh = tBranchHeight;
+    this.timelineTotalHeight = `max(calc(${this.branches.length} * (30px + ${fbh})), 90%)`;
+  }
 
   public animateHover(branch: TimelineNodeBranch, idx: number): void {
     this._animGen++;
@@ -50,7 +60,10 @@ export class TimelineComponent {
     this._timelineAnim = this.animateTimeline(position);
     this._timelineAnim.finished.then(() => {
       if (gen !== this._animGen) return;
-      this._timelineEl.style.setProperty('height', `calc(${position}% + ${fBranchHeight} * ${idx} + (${fBranchHeight} / 2) + ${tBranchHeight}/2)`);
+
+      // const extraHeight = isMobile() ? `${fBranchHeight} + ${tBranchHeight}` : `(${fBranchHeight}/2) + (${tBranchHeight}/2)`
+      const extraHeight = isMobile() ? '33px' : `22px`;
+      this._timelineEl.style.setProperty('height', `calc(${position * 30}px + ${fBranchHeight} * ${idx} + ${extraHeight})`);
       this._branchAnim = this.animateBranch(id, 100);
       branch.isHovered = true;
       this._branchAnim.finished.then(() => {
@@ -108,11 +121,11 @@ export class TimelineComponent {
     this.timelineBranchElRef.forEach(ref => ref.nativeElement.style.removeProperty('width'));
   }
 
-  private animateTimeline(heightInPercent: number, options: KeyframeAnimationOptions = this._defaultOptions): Animation {
+  private animateTimeline(position: number, options: KeyframeAnimationOptions = this._defaultOptions): Animation {
     const branchHeight = getComputedStyle(this._el).getPropertyValue('--timeline-branch-height').trim();
     const keyframes: Keyframe[] = [
       { height: '0%' },
-      { height: `calc(${heightInPercent}% + ${branchHeight})` }
+      { height: `calc(${position * 30}px + ${branchHeight})` }
     ];
     return this._timelineEl.animate(keyframes, options);
   }
