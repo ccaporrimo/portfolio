@@ -38,7 +38,7 @@
         padding-bottom: 1rem;
         border-bottom: 2px solid h.weaken-inverted-primary(50);
 
-        @media (min-width: 1025px) {
+        @media (min-width: v.$mobile-breakpoint) {
             padding: 0 2rem;
             box-sizing: border-box;
             border-bottom: none;
@@ -74,7 +74,7 @@
 
         margin-top: 5%;
 
-        @media (min-width: 1025px) {
+        @media (min-width: v.$mobile-breakpoint) {
             justify-content: start;
             margin-top: 0;
         }

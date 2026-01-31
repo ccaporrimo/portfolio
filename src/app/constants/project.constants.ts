@@ -7,7 +7,7 @@ export enum ProjectIdEnum {
     Scheduler = 'scheduler',
     CustomBranding = 'custom-branding',
     Security = 'security',
-    MultiTenantData = 'multi-tenant-data',
+    BookingAgent = 'booking-agent',
     ProfessionalPortfolio = 'professional-portfolio'
 }
 

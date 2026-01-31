@@ -1,0 +1,9 @@
+<div class="main-container">
+  <div class="header">
+    <div (click)="close()"><mat-icon svgIcon="modal_close" /></div>
+  </div>  
+  <mat-dialog-content>
+    @let _node = data;
+    <app-history-detail [item]="_node"></app-history-detail>
+  </mat-dialog-content>
+</div>

@@ -1,29 +1,34 @@
 <div class="page-title">Historical Timeline</div>
 <div class="main-container">
-<div class="timeline-container">
-  <div class="timeline" #timeline></div>
-</div>
-<div class="branch-container">
-  @for(branch of branches; track $index)
-  {
-    @let isRight = ($index + 1) % 2 === 0;
-    <div class="branch" [style.top.px]="branch.position * 30" [class.right]="isRight">
-      @if (!isRight) { <ng-container [ngTemplateOutlet]="nodeLeaf" [ngTemplateOutletContext]="{ branch, index: $index }" /> }
-      <div class="node-year" [class.year-hovered]="branch.isHovered">{{ branch.year | date:'yyyy' }}</div>
-      <div [ngClass]="isRight ? 'right' : 'left'" class="timeline-branch-container">        
-        <div #timelineBranch class="timeline-branch"></div>
-      </div> 
-      @if (isRight) { <ng-container [ngTemplateOutlet]="nodeLeaf" [ngTemplateOutletContext]="{ branch, index: $index }" /> }
-    </div>
-  }
+  <div class="timeline-container">
+    <div class="timeline" #timeline></div>
+    @let _cb = currentBranch();
+    @let _cbIdx = currentBranchIdx;
+    @let _isLeft = _cbIdx !== null && (_cbIdx % 2) === 0;
+    @if(!!_cb){ <div class="selected-timeline" [class.is-left]="_isLeft" [style.height]="`calc(${_cb.position * 30}px + ${fBranchHeight} * ${_cbIdx} + ${extraHeight})`"></div> }
+  </div>
+  <div class="branch-container">
+    @for(branch of branches; track $index)
+    {
+      @let isRight = ($index + 1) % 2 === 0;
+      <div class="branch" [style.top.px]="branch.position * 30" [class.right]="isRight">
+        @if (!isRight) { <ng-container [ngTemplateOutlet]="nodeLeaf" [ngTemplateOutletContext]="{ branch, index: $index }" /> }
+        <div class="node-year" [class.year-hovered]="branch.isHovered" [class.selected]="$index === _cbIdx">{{ branch.year | date:'yyyy' }}</div>
+        <div [ngClass]="isRight ? 'right' : 'left'" class="timeline-branch-container">        
+          <div #timelineBranch class="timeline-branch"></div>
+          <div class="selected-branch timeline-branch" [class.extended]="!!_cb && _cbIdx === $index"></div>
+        </div> 
+        @if (isRight) { <ng-container [ngTemplateOutlet]="nodeLeaf" [ngTemplateOutletContext]="{ branch, index: $index }" /> }
+      </div>
+    }
+  </div>
 </div>
 
 <ng-template #nodeLeaf let-branch="branch" let-index="index">
-  <div #imageEl class="timeline-node" (pointerenter)="animateHover(branch, index)" (pointerleave)="animateUnhover()">
+  <div #imageEl class="timeline-node" (click)="openNode(index)" (pointerenter)="animateHover(index)" (pointerleave)="animateUnhover()">
     <div class="image-container">
       <img [src]="branch.imgSrc" alt="Timeline Placeholder">
       @if(!!branch.badgeIcon) { <div class="badge-icon"><mat-icon [svgIcon]="branch.badgeIcon"></mat-icon></div> }
     </div>
   </div>
 </ng-template>
-</div>

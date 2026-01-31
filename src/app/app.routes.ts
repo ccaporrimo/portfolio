@@ -5,6 +5,8 @@ import { TimelineComponent } from './components/main-content/timeline/timeline.c
 import { BiographyComponent } from './components/main-content/biography/biography.component';
 import { NotFoundComponent } from './components/ui/not-found/not-found.component';
 import { ResumeComponent } from './components/main-content/resume/resume.component';
+import { HistoryDetailComponent } from './components/main-content/history-detail/history-detail.component';
+import { ContactComponent } from './components/main-content/contact/contact.component';
 
 export const routes: Routes = [
     {
@@ -34,8 +36,17 @@ export const routes: Routes = [
         component: TimelineComponent
     },
     {
+        path: 'history/:timelineId',
+        component: HistoryDetailComponent,
+        outlet: 'rightpanel'
+    },
+    {
         path: 'resume',
         component: ResumeComponent
+    },
+    {
+        path: 'contact',
+        component: ContactComponent
     },
     {
         path: '**',

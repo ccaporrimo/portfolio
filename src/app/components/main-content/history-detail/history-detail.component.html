@@ -1,0 +1,62 @@
+@let _item = currentItem();
+<div class="image-row">
+  <div class="image"><img [src]="_item?.imgSrc"></div>
+  @if(!!_item && _item.badgeIcon)
+  {
+    <div class="badge-container">
+      <mat-icon [svgIcon]="_item.badgeIcon" />
+    </div>
+  }
+</div>
+<div class="title">{{currentItem()?.nodeDetail?.title}}</div>
+<hr>
+<div class="details">
+  @let _details = _item?.nodeDetail;
+  @let _yearRange = _details?.yearRange;
+  @let _isJob = !!_details?.jobTitle;
+  @let _isStudent = !!_details?.degree;
+  @if (!!_isJob)
+  { 
+    <div class="detail-row">
+      <span><mat-icon svgIcon="job_title" /></span>
+      <span>Title:</span>
+      <span>{{ _details?.jobTitle }}</span>
+    </div>
+  }
+  @if (!!_isStudent)
+  {
+    <div class="detail-row">
+      <span><mat-icon svgIcon="grad_cap" /></span>
+      <span>Degree earned:</span>
+      <span>{{ _details?.degree }}</span>
+    </div>
+  }
+  @if (!!_yearRange) 
+  {
+    <div class="detail-row">
+      <span><mat-icon svgIcon="calendar" /></span>
+      @if (_yearRange.start) 
+      {        
+        <span>Years active:</span>      
+        <span>{{ _yearRange.start | date:'yyyy' }}</span>
+        <span>-</span>
+      }
+      @else { <span>Year separated:</span> }      
+      @if(_yearRange.end) { <span>{{ _yearRange.end | date:'yyyy' }}</span> }
+      @else { <span>Current</span> }
+    </div>
+  }
+  @if (!!_details?.awards?.length)
+  {
+    <div class="detail-row">
+      <span><mat-icon svgIcon="star_ribbon" /></span>
+      <div class="award-list">
+        @for(award of _details?.awards; track award)
+        {
+          <div>{{ award }}</div>
+        }
+      </div>
+    </div>
+  }
+</div>
+<div class="description" [innerHTML]="_details?.fullDescription"></div>

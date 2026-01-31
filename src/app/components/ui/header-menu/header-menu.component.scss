@@ -1,4 +1,10 @@
+@use '../../../../variables' as v;
+
 :host button mat-icon {
     width: 28px;
     height: 28px;
+}
+
+:host button:focus-visible {
+    border: 1px solid v.$colorPrimaryInv;
 }

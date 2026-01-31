@@ -31,5 +31,7 @@ export const iconDefinitions: { [key: string]: string } = {
     'this_website': '/assets/images/projects/this_website.svg',
     'code_icon': '/assets/icons/code_icon.svg',
     'rocket_ship': '/assets/icons/rocket_ship.svg',
-    'architecture': '/assets/icons/architecture.svg'
+    'architecture': '/assets/icons/architecture.svg',
+    'job_title': '/assets/icons/job_title.svg',
+    'grad_cap': '/assets/icons/grad_cap.svg'
 }

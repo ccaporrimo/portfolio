@@ -1,0 +1,95 @@
+@if (isSuccess() !== true)
+{
+  @if (isSuccess() === false && !isSending())
+  {
+    <div class="failure">Something went wrong with your communication. Please try again.</div>
+  }
+<form #form (submit)="sendContact()">
+  <div class="form-container">
+    <div class="title">Let's Connect</div>
+    <div class="form-field">
+      <label for="firstName">First Name</label>
+      <input [disabled]="isSending()" id="firstName" name="firstName" [(ngModel)]="payload.firstName" type="text">
+    </div>
+    <div class="form-field">
+      <label for="lastName">Last Name</label>
+      <input [disabled]="isSending()" id="lastName" name="lastName" [(ngModel)]="payload.lastName" type="text">
+    </div>
+    <div class="form-field">
+      <label for="email">Email address</label>
+      <input [disabled]="isSending()" id="email" name="email" [(ngModel)]="payload.email" required type="email">
+    </div>
+    <div class="form-field">
+      <label for="company">Company</label>
+      <input [disabled]="isSending()" id="company" name="company" [(ngModel)]="payload.company" type="text">
+    </div>
+    <div class="form-field row">      
+      <input [disabled]="isSending()" id="recruiter" name="recruiter" [(ngModel)]="payload.isRecruiter" type="checkbox">
+      <label for="recruiter">I am a recruiter</label>
+    </div>
+    <div class="form-field">
+      <label for="message">Message</label>
+      <textarea [disabled]="isSending()" rows="5" id="message" name="message" [(ngModel)]="payload.message"></textarea>
+    </div>
+    <button [disabled]="isSending()" [class.is-sending]="isSending()" class="form-field" type="submit">
+      @if(!isSending()) { Connect! }
+      @else { <app-loading-spinner /> }
+    </button>
+  </div>  
+</form>
+}
+@else
+{
+<div class="success-container">
+  <svg width="250" height="250" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle
+      cx="50"
+      cy="50"
+      r="40"
+      fill="none"
+      stroke="white"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-dasharray="252"
+      stroke-dashoffset="252"
+    >
+      <animate
+        attributeName="stroke-dashoffset"
+        from="252"
+        to="0"
+        dur="0.8s"
+        begin="0s"
+        fill="freeze"
+        calcMode="spline"
+        keySplines="0.4 0 0.2 1"
+      />
+    </circle>
+
+    <path
+      d="M30 50 L45 65 L70 35"
+      fill="none"
+      stroke="#4CAF50"
+      stroke-width="6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-dasharray="60"
+      stroke-dashoffset="60"
+      visibility="hidden"
+    >
+      <set attributeName="visibility" to="visible" begin="0.8s" />
+      
+      <animate
+        attributeName="stroke-dashoffset"
+        from="60"
+        to="0"
+        dur="0.5s"
+        begin="0.8s"
+        fill="freeze"
+        calcMode="spline"
+        keySplines="0.4 0 0.2 1"
+      />
+    </path>
+  </svg>
+  <span>Message successfully sent!</span>
+</div>
+}

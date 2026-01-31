@@ -12,7 +12,7 @@
     column-gap: 2rem;
     row-gap: 0.5rem;
 
-    @media screen and (min-width: 1025px) {
+    @media screen and (min-width: v.$mobile-breakpoint) {
         display: flex;
         flex-direction: column;
         width: 100%;

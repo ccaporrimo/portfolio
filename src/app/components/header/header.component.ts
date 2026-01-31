@@ -28,5 +28,6 @@ export class HeaderComponent {
   constructor(private _projectService: ProjectService) {
     window.addEventListener('resize', () => this.isMobile.set(BrowserHelpers.isMobile()));
     this.isMobile.set(BrowserHelpers.isMobile());
+    !this.isMobile() && this.menuItems.splice(this.menuItems.findIndex(i => i.label == 'Projects'), 1);
   }
 }

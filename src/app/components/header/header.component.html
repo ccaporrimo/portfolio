@@ -24,18 +24,22 @@
       }
       @else
       {
-      <div class="subtitle desktop-only">
-        <div class="row-space-between">
-          @for(profileSubtitlePart of profileSubtitleParts; track profileSubtitlePart; let last = $last)
-          {
-            <div>{{ profileSubtitlePart }}</div>
-            @if(!last)
+      <div style="display: flex; justify-content: space-between; width: 100%;">
+        <div class="subtitle desktop-only">
+          <div class="row-space-between">
+            @for(profileSubtitlePart of profileSubtitleParts; track profileSubtitlePart; let last = $last)
             {
-              <div>|</div>
+              <div>{{ profileSubtitlePart }}</div>
+              @if(!last)
+              {
+                <div>|</div>
+              }
             }
-          }
+          </div>
         </div>
-      </div>
+        <app-header-menu [menuItems]="menuItems" (menuItemSelected)="headerMenuItemSelected.emit($event)" />
+      </div>      
+      
       }
     </div>    
     <!-- <div class="language-selection"><div class="fi fi-us"></div></div> -->

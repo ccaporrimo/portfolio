@@ -1,16 +1,23 @@
 <div class="content">
 @let _project = currentProject();
 @if (!!_project)
-{  
-  @if (_project.basicInfo && !isMobile())
-  {
-    <div class="floating-basic-info"><app-project-basic-info [basicInfo]="_project.basicInfo"></app-project-basic-info></div>
-  }
-  <div class="image-wrapper">
-    @if(!!_project.imageUrl){ <img [src]="_project.imageUrl" [alt]="_project.title"> }
-    @else if(!!_project.svgIcon) { <mat-icon [svgIcon]="_project.svgIcon" /> }
+{
+  <div class="top-row">
+    @if (_project.basicInfo && !isMobile())
+    {
+      <div class="floating-basic-info">
+        <div class="basic-info-container"><app-project-basic-info [basicInfo]="_project.basicInfo" /></div>
+      </div>
+    }
+    <div class="top-center">
+      <div class="image-wrapper">
+        @if(!!_project.imageUrl){ <img [src]="_project.imageUrl" [alt]="_project.title"> }
+        @else if(!!_project.svgIcon) { <mat-icon [svgIcon]="_project.svgIcon" /> }
+      </div>
+      <div class="title">{{ _project.title }}</div>
+    </div>
+    <div class="top-right"></div>
   </div>
-  <div class="title">{{ _project.title }}</div>  
   <hr>
   @if (_project.basicInfo && isMobile())
   {

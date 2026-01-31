@@ -7,7 +7,7 @@ import { MatIcon } from "@angular/material/icon";
   selector: 'app-project-basic-info',
   templateUrl: './project-basic-info.component.html',
   styleUrls: ['./project-basic-info.component.scss'],
-  imports: [DatePipe, MatIcon, NgTemplateOutlet]
+  imports: [DatePipe, MatIcon]
 })
 export class ProjectBasicInfoComponent {
   @Input() basicInfo!: ProjectBasicInfo;

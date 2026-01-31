@@ -9,16 +9,41 @@
     padding: 0.75rem 0;
     position: relative;
 
+    .top-row {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        
+        .top-center {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
     .floating-basic-info {
-        position: absolute;
-        top: 0.5rem;
-        left: 10%;
+        width: 25%;
+        height: 100%;
         padding: 0.5rem;
         box-sizing: border-box;
+        display: grid;
+        place-items: center;
 
         background-color: rgba(v.$colorHighlight, 0.15);
         border-radius: 6px;
         border: 1px solid v.$colorHighlight;
+
+        .basic-info-container {
+            width: 80%;
+        }
+    }
+
+    .top-right {
+        width: 25%;
+        height: 100%;
     }
 
     .image-wrapper {
@@ -60,7 +85,7 @@
         height: calc(42px * 1.33);
         padding: 0.75rem 0 ;
 
-        @media (min-width: 1025px) {
+        @media (min-width: v.$mobile-breakpoint) {
             justify-content: center;
         }
 

@@ -1,0 +1,177 @@
+@use '../../../../helpers' as h;
+@use '../../../../variables' as v;
+
+:host {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    width: 95%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem 1rem;
+    border-radius: 6px;
+
+    background-color: rgba(0, 0, 0, 0.25);
+
+    .title {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: h.get-font-size(1.75);
+    }
+
+    .form-field {
+        display: flex;
+        flex-direction: column;
+        width: 95%;
+
+        &.row {
+            flex-direction: row;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        input, textarea {
+            border: none;
+            font-size: h.get-font-size(1.5);
+            padding: 0.5rem 0.75rem;
+            font-family: inherit;
+            font-weight: 200;
+            border-radius: 4px;
+            outline: 2px solid rgba(0, 0, 0, 0);
+            transition: outline 0.3s;
+
+            &:focus-visible {
+                outline: 2px solid var(--glowing-fill);
+            }
+        }
+
+        input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background-color: transparent;
+            outline: 2px solid rgba(0, 0, 0, 0);
+
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            border: 3px solid v.$colorPrimaryInv;
+            cursor: pointer;
+
+            filter: brightness(1);
+            transition: filter 0.3s, outline 0.3s; 
+
+            display: grid;
+            place-items: center;
+
+            &:hover:not(:checked) {
+                filter: brightness(1.5);
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--glowing-fill);
+            }
+
+
+            &::after {
+                content: "";
+                width: 80%;
+                height: 80%;
+                background-color: rgba(74, 144, 226, 0);
+                border-color: transparent;
+                transition: background-color 0.15s;
+            } 
+
+            &:checked::after {
+                background-color: var(--glowing-fill);
+            }
+
+            &:disabled {
+                opacity: 0.5;
+            }
+            &:disabled:checked {
+                background: #999;
+                border-color: #999;
+            }
+        }
+
+        textarea {
+            font-family: inherit;
+            font-size: h.get-font-size(1.25);
+            font-weight: 200;
+            padding: 0.5rem 0.75rem;
+            resize: none;
+        }
+    }
+
+    button {
+        padding: 0.5rem 0;
+        height: 2.75rem;
+        font-size: h.get-font-size(1.5);
+        font-family: "Space Grotesk", sans-serif;
+        border: none;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        cursor: pointer;
+        background-color: v.$colorPrimaryInv;
+        color: v.$colorPrimary;
+        filter: brightness(1);
+        transition: background-color 0.3s, color 0.3s, filter 0.3s;
+
+        &:hover:not(.is-sending) {
+            @media (prefers-color-scheme: light) {
+                filter: brightness(1.33);
+            }
+
+            @media (prefers-color-scheme: dark) {
+                filter: brightness(0.75);
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--glowing-fill);
+        }
+    }
+
+    @media (min-width: v.$mobile-breakpoint) {
+        width: 50%;
+    }
+}
+
+.success-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    svg circle {
+        stroke: v.$colorPrimaryInv;
+    }
+
+    span {
+        font-size: h.get-font-size(1.5);
+    }
+}

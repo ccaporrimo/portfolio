@@ -40,6 +40,12 @@ export namespace AnimationHelpers {
         return from(el.animate(keyframes, options).finished).pipe(take(1));
     }
 
+    export const fadeOut$ = (el: HTMLElement, duration: number, startingOpacity: number = 1) => {
+        const keyframes: Keyframe[] = [{ opacity: startingOpacity }, { opacity: 0 }];
+        const options: KeyframeAnimationOptions = { duration, easing: 'ease-in-out' };
+        return animateEl$(el, keyframes, options);
+    }
+
     export const slideLeft$ = (el: HTMLElement, distance: string, duration: number, persist: boolean = false) => {
         const keyframes: Keyframe[] = [
             { transform: 'translateX(0)' },
@@ -63,6 +69,6 @@ export namespace AnimationHelpers {
 
 export namespace BrowserHelpers {
     export const isLandscape = () => window.matchMedia('(orientation: landscape)').matches;
-    export const isLargeWidth = () => window.innerWidth > 1024;
+    export const isLargeWidth = () => window.innerWidth > 1100;
     export const isMobile = () => !isLargeWidth();
 }

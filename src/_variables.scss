@@ -3,8 +3,9 @@ $colorPrimaryLight: #dfdfdf;
 $colorPrimary: light-dark($colorPrimaryLight, $colorPrimaryDark);
 $colorPrimaryInv: light-dark($colorPrimaryDark, $colorPrimaryLight);
 
-$mobile-breakpoint: 1025px;
+$mobile-breakpoint: 1100px;
 $colorHighlight: rgb(24, 50, 133);
+$colorHighlight50Opacity: rgba(24, 50, 133, 0.75);
 
 :root {
     // colors
@@ -43,7 +44,7 @@ $colorHighlight: rgb(24, 50, 133);
     --base-font-size: 1rem;
     --timeline-node-badge-size: 24px;
 
-    @media (min-width: 1025px) {
+    @media (min-width: $mobile-breakpoint) {
         --timeline-node-badge-size: 32px;
     }
 }

@@ -1,0 +1,42 @@
+:host {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.the-spinner {
+    height: 100%;
+    width: auto;
+
+    &.width-bound {
+        width: 100%;
+        height: auto;
+    }
+
+    aspect-ratio: 1 / 1;
+
+    border-radius: 9999px;
+    border: 5px solid transparent;
+    border-top: 5px solid light-dark(white, black);
+    border-bottom: 5px solid light-dark(white, black);
+
+    &.invert {
+        border-top-color: light-dark(black, white);
+        border-top-color: light-dark(black, white);
+    }
+
+    box-sizing: border-box;
+
+    animation: spin 0.75s ease-in-out infinite;
+
+    &.width-bound {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
