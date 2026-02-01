@@ -3,6 +3,7 @@ import { BrowserHelpers } from '../../services/helpers';
 import { HeaderMenuComponent } from "../ui/header-menu/header-menu.component";
 import { MenuItem } from '../../interfaces/ui.interface';
 import { ProjectService } from '../../services/project.service';
+import { ResizeableComponentBase } from '../resizeable.component.base';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ import { ProjectService } from '../../services/project.service';
   styleUrls: ['./header.component.scss'],
   imports: [HeaderMenuComponent]
 })
-export class HeaderComponent {
+export class HeaderComponent extends ResizeableComponentBase {
   @Input() profileTitle!: string;
   @Input() profileSubtitleParts!: string[];
   @Output() headerMenuItemSelected: EventEmitter<MenuItem> = new EventEmitter();
@@ -23,11 +24,8 @@ export class HeaderComponent {
     { label: "Contact", svgIcon: "contact_icon", route: ['contact'] }
   ]
 
-  protected isMobile: WritableSignal<boolean> = signal(false);
-
   constructor(private _projectService: ProjectService) {
-    window.addEventListener('resize', () => this.isMobile.set(BrowserHelpers.isMobile()));
-    this.isMobile.set(BrowserHelpers.isMobile());
+    super();
     !this.isMobile() && this.menuItems.splice(this.menuItems.findIndex(i => i.label == 'Projects'), 1);
   }
 }

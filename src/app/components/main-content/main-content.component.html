@@ -1,5 +1,5 @@
 <main>
-  @if (isDesktop())
+  @if (!isMobile())
   {
   <div class="main-margin left">
     <div class="left-panel-title">Projects</div>
@@ -15,7 +15,7 @@
   <div class="panel">
     <div #routerContainer class="router-container" [class.fade-out]="fadeOut"><router-outlet /></div>
   </div>
-  @if (isDesktop())
+  @if (!isMobile())
   {
     <div class="main-margin right"><router-outlet name="rightpanel" /></div>
   }  

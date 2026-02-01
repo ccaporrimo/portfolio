@@ -13,4 +13,28 @@ footer {
         width: 50%;
         margin: 0;
     }
+
+    .socials-row {
+        display: flex;
+        justify-content: center;
+        height: 28px;
+        width: 100%;
+        gap: 1rem;
+
+        .social-link {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+
+            img {
+                object-fit: contain;
+                height: 100%;
+                width: auto;
+            }
+
+            @media (prefers-color-scheme: light) {
+                background-color: v.$colorPrimaryDark;
+            }
+        }
+    }
 }

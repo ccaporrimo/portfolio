@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
 import { MatIcon } from "@angular/material/icon";
-import { BrowserHelpers } from '../../../services/helpers';
 import { of, Subject } from 'rxjs';
-
-const { isMobile } = BrowserHelpers;
+import { ResizeableComponentBase } from '../../resizeable.component.base';
 
 export enum Sides {
   Right,
@@ -17,7 +15,7 @@ export enum Sides {
   styleUrls: ['./side-drawer.component.scss'],
   imports: [MatIcon, CommonModule]
 })
-export class SideDrawerComponent implements OnInit, AfterViewInit {
+export class SideDrawerComponent extends ResizeableComponentBase implements OnInit, AfterViewInit {
   @Input() side: Sides = Sides.Left;
   @Input() slideDuration: number = 500;
 
@@ -41,7 +39,7 @@ export class SideDrawerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (!isMobile) return;
+    if (!this.isMobile()) return;
 
     const hammer = new Hammer(this._openCloseToggleEl);
     hammer.on('swiperight', () => this.openDrawer());

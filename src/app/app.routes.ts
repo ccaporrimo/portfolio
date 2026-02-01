@@ -8,6 +8,7 @@ import { ResumeComponent } from './components/main-content/resume/resume.compone
 import { HistoryDetailComponent } from './components/main-content/history-detail/history-detail.component';
 import { ContactComponent } from './components/main-content/contact/contact.component';
 import { HistoryComponent } from './components/main-content/history/history.component';
+import { firstVisitGuard } from './app.guard';
 
 export const routes: Routes = [
     {
@@ -16,41 +17,47 @@ export const routes: Routes = [
         pathMatch: 'full'
     },
     {
-        path: 'bio',
-        component: BiographyComponent
-    },
-    {
-        path: 'skills/:skillName',
-        component: SkillComponent
-    },
-    {
-        path: 'skills/:skillName',
-        component: SkillComponent,
-        outlet: 'rightpanel'
-    },
-    {
-        path: 'projects/:projectName',
-        component: ProjectComponent
-    },
-    {
-        path: 'timeline',
-        component: HistoryComponent
-    },
-    {
-        path: 'history/:timelineId',
-        component: HistoryDetailComponent,
-        outlet: 'rightpanel'
-    },
-    {
-        path: 'resume',
-        component: ResumeComponent
-    },
-    {
-        path: 'contact',
-        component: ContactComponent
-    },
-    {
-        path: '**',
-        component: NotFoundComponent
-    }
+        path: '',
+        canActivate: [firstVisitGuard],
+        children: [
+            {
+                path: 'bio',
+                component: BiographyComponent
+            },
+            {
+                path: 'skills/:skillName',
+                component: SkillComponent
+            },
+            {
+                path: 'skills/:skillName',
+                component: SkillComponent,
+                outlet: 'rightpanel'
+            },
+            {
+                path: 'projects/:projectName',
+                component: ProjectComponent
+            },
+            {
+                path: 'timeline',
+                component: HistoryComponent
+            },
+            {
+                path: 'history/:timelineId',
+                component: HistoryDetailComponent,
+                outlet: 'rightpanel'
+            },
+            {
+                path: 'resume',
+                component: ResumeComponent
+            },
+            {
+                path: 'contact',
+                component: ContactComponent
+            },
+            {
+                path: '**',
+                component: NotFoundComponent
+            }
+        ] 
+    }    
 ];

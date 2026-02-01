@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SkillDialogComponent } from '../../ui/skill-dialog/skill-dialog.component';
 import { ProjectBasicInfoComponent } from "../../ui/project-basic-info/project-basic-info.component";
 import { SkillTypeEnum } from '../../../constants/skill.constants';
+import { ResizeableComponentBase } from '../../resizeable.component.base';
 
 @Component({
   selector: 'app-project',
@@ -17,9 +18,8 @@ import { SkillTypeEnum } from '../../../constants/skill.constants';
   styleUrls: ['./project.component.scss'],
   imports: [MatIcon, ProjectBasicInfoComponent]
 })
-export class ProjectComponent {
+export class ProjectComponent extends ResizeableComponentBase {
   protected currentProject: WritableSignal<PortfolioProject | null> = signal(null);
-  protected isMobile: WritableSignal<boolean> = signal(false);
   protected selectedSkillId: SkillTypeEnum | string | null = null;
 
   private get _el() { return this._elRef?.nativeElement as HTMLElement; }
@@ -33,9 +33,8 @@ export class ProjectComponent {
     private _router: Router,
     private _dialog: MatDialog) {
 
+    super();
     this._route.paramMap.subscribe(paramMap => this.routeChanged(paramMap.get('projectName')));
-    this.isMobile.set(BrowserHelpers.isMobile());
-    window.addEventListener('resize', () => this.isMobile.set(BrowserHelpers.isMobile()));
   }
 
   protected viewSkill(skillId?: string | null) {

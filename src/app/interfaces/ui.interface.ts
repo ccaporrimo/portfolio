@@ -5,3 +5,10 @@ export interface MenuItem {
     label: string;
     svgIcon: string;
 }
+
+export interface SocialMediaLink {
+    label: string;
+    imageUrl?: string;
+    svgIcon?: string;
+    linkUrl: string;
+}

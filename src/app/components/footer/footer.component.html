@@ -1,4 +1,19 @@
 <footer>
   <hr>
   <div>© {{ currentYear }} {{ profileTitle }}</div>
+  @if(!!socialMediaLinks)
+  {
+    <div class="socials-row">
+      @for(socialMediaLink of socialMediaLinks; track socialMediaLink.linkUrl)
+      {
+        <ng-container [ngTemplateOutlet]="mediaLink" [ngTemplateOutletContext]="{ $implicit: socialMediaLink }" />
+      }
+    </div>
+  }
 </footer>
+
+<ng-template #mediaLink let-socialMediaLink>
+  <a [href]="socialMediaLink.linkUrl" target="_blank">
+    <div class="social-link"><img [src]="socialMediaLink.imageUrl" [alt]="socialMediaLink.label"></div>
+  </a>
+</ng-template>

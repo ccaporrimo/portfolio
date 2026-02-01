@@ -45,8 +45,25 @@ app-project-basic-info {
     }
 }
 
-app-header-menu mat-icon[svgicon="hamburger_menu"] svg path {
+app-header-menu mat-icon[svgicon="hamburger_menu"] svg path,
+app-first-visit-dialog mat-icon svg path {
     fill: v.$colorPrimaryInv;
+}
+
+app-first-visit-dialog {
+    mat-dialog-content.mat-mdc-dialog-content.mdc-dialog__content {
+        padding: 0 2rem;
+        background-color: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
+    }
+    
+    mat-dialog-actions.mat-mdc-dialog-actions.mdc-dialog__actions {
+        width: 100%;
+        padding: 0.25rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top: 2px solid var(--color-neutral-700);
+    }
 }
 
 .mat-mdc-menu-panel {

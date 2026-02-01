@@ -3,10 +3,8 @@ import { ScrollDirection, VerticalScrollerItem } from '../../../interfaces/verti
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { BehaviorSubject } from 'rxjs';
-import { BrowserHelpers } from '../../../services/helpers';
 import { v4 } from 'uuid';
-
-const { isMobile } = BrowserHelpers;
+import { ResizeableComponentBase } from '../../resizeable.component.base';
 
 @Component({
   selector: 'app-vertical-scroller',
@@ -14,7 +12,7 @@ const { isMobile } = BrowserHelpers;
   styleUrls: ['./vertical-scroller.component.scss'],
   imports: [CommonModule, MatIcon]
 })
-export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestroy {
+export class VerticalScrollerComponent extends ResizeableComponentBase implements OnInit, AfterViewInit, OnDestroy {
   @Input() items!: VerticalScrollerItem[];
   @Input() numberVisibleItems: number = 4;
   @Input() autoScrollInterval:number = 5000;
@@ -39,7 +37,6 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
   protected hoveredIndex: number | null = null;
   protected canScroll = false;
   protected visibleItems$: BehaviorSubject<VerticalScrollerItem[]> = new BehaviorSubject([] as VerticalScrollerItem[]);
-  protected isMobile = isMobile;
 
   private _currentIndex: number = 0;  
   private _autoScrollIntervalId!: number;
@@ -62,7 +59,7 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
     if (!this.items?.length || !this._scrollEl || !this.canScroll) return;
 
     this.autoScroll();
-    isMobile() && this.setupGestures();
+    this.isMobile() && this.setupGestures();
   }
 
   ngOnDestroy(): void {
@@ -140,7 +137,7 @@ export class VerticalScrollerComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   private disableAutoScroll = () => this._autoScrollIntervalId && clearInterval(this._autoScrollIntervalId);
-  private autoScroll = () => this.canScroll && !isMobile && (this._autoScrollIntervalId = setInterval(() => this.autoScrollWorker(), this._interval));  
+  private autoScroll = () => this.canScroll && !this.isMobile() && (this._autoScrollIntervalId = setInterval(() => this.autoScrollWorker(), this._interval));  
 
   private autoScrollWorker() {
     this._scrollAnimationOptions.duration = 750;

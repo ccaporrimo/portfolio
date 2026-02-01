@@ -9,11 +9,10 @@ import { HistoryService } from '../../../services/history.service';
 import { TimelineIdEnum } from '../../../constants/history.constants';
 import { Router } from '@angular/router';
 import { HistoryDetailDialogComponent } from '../../ui/history-detail-dialog/history-detail-dialog.component';
+import { ResizeableComponentBase } from '../../resizeable.component.base';
 
 const fBranchHeight = 'var(--full-branch-height)';
 const tBranchHeight = 'var(--timeline-branch-height)';
-const { isMobile } = BrowserHelpers;
-const extraHeight = isMobile() ? '33px' : `33px`;
 
 @Component({
   selector: 'app-timeline',
@@ -21,7 +20,7 @@ const extraHeight = isMobile() ? '33px' : `33px`;
   styleUrls: ['./timeline.component.scss'],
   imports: [NgClass, DatePipe, MatIcon, NgTemplateOutlet]
 })
-export class TimelineComponent implements OnInit {
+export class TimelineComponent extends ResizeableComponentBase implements OnInit {
   @ViewChild('timeline') timelineElRef!: ElementRef<HTMLDivElement>;
   @ViewChildren('timelineBranch') timelineBranchElRef!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('imageEl') imageElRefs!: QueryList<ElementRef<HTMLElement>>;
@@ -33,8 +32,8 @@ export class TimelineComponent implements OnInit {
 
   protected currentBranch: WritableSignal<TimelineNodeBranch | null> = signal(null);
   protected currentBranchIdx: number | null = null;
+  protected readonly extraHeight: string = '33px';
   protected fBranchHeight = fBranchHeight;
-  protected extraHeight = extraHeight;
 
   private _animDuration = 150;
   private _defaultOptions: KeyframeAnimationOptions = { duration: this._animDuration, easing: 'ease-in', fill: 'none' };
@@ -46,6 +45,7 @@ export class TimelineComponent implements OnInit {
   private get _el() { return this._elRef.nativeElement as HTMLElement; }
 
   constructor(private _elRef: ElementRef, private _dialog: MatDialog, private _historyService: HistoryService, private _router: Router) {
+    super();
     this.branches = this._historyService.branches;
   }
 
@@ -56,7 +56,7 @@ export class TimelineComponent implements OnInit {
   }
 
   public animateHover(idx: number, allowMobile: boolean = false) {
-    if (isMobile() && !allowMobile) return Promise.resolve();
+    if (this.isMobile() && !allowMobile) return Promise.resolve();
     const branch = this.branches[idx];
     this._animGen++;
     const gen = this._animGen;
@@ -103,7 +103,7 @@ export class TimelineComponent implements OnInit {
     this.currentBranchIdx = idx;
     this.currentBranch.set(branch);
     setTimeout(() => {
-      if (isMobile()) {
+      if (this.isMobile()) {
         this._dialog.open(HistoryDetailDialogComponent, {
           width: '100svw',
           data: branch
@@ -116,7 +116,7 @@ export class TimelineComponent implements OnInit {
   }
 
   private stampTimelineEl(position: number, idx: number) {
-    this._timelineEl.style.setProperty('height', `calc(${position * 30}px + ${fBranchHeight} * ${idx} + ${extraHeight})`);
+    this._timelineEl.style.setProperty('height', `calc(${position * 30}px + ${fBranchHeight} * ${idx} + ${this.extraHeight})`);
   }
 
   private stampTimelineBranchEl(id: TimelineIdEnum) {

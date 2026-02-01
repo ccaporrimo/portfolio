@@ -9,6 +9,7 @@ import { SkillService } from '../../services/skill.service';
 import { ProjectService } from '../../services/project.service';
 import { MenuItem } from '../../interfaces/ui.interface';
 import { of } from 'rxjs';
+import { ResizeableComponentBase } from '../resizeable.component.base';
 
 @Component({
   selector: 'app-main-content',
@@ -16,7 +17,7 @@ import { of } from 'rxjs';
   styleUrls: ['./main-content.component.scss'],
   imports: [RouterOutlet, VerticalScrollerComponent, SideDrawerComponent, CommonModule]
 })
-export class MainContentComponent {  
+export class MainContentComponent extends ResizeableComponentBase {  
   @ViewChild('sideDrawer') sideDrawer!: SideDrawerComponent;
   @ViewChild('routerContainer') routerContainerRef!: ElementRef<HTMLElement>;
 
@@ -24,7 +25,6 @@ export class MainContentComponent {
   @HostBinding('style.--main-panel-fade-timing')
   fadeTiming: string = `${this._fadeTiming}ms`;
 
-  protected isDesktop = signal(false);
   protected fadeOut: boolean = false;
   protected skillItems: VerticalScrollerItem[];
   protected projectItems: VerticalScrollerItem[];
@@ -32,8 +32,7 @@ export class MainContentComponent {
   private get _routerContainerEl() { return this.routerContainerRef?.nativeElement; }
 
   constructor(private _router: Router, private _skillService: SkillService, private _projectService: ProjectService) {
-    this.updateIsDesktop();
-    window.addEventListener('resize', () => this.updateIsDesktop());
+    super();
     this.skillItems = this._skillService.skills;
     this.projectItems = this._projectService.projects;
     this._projectService.toggleSlideout$.subscribe(_ => this.sideDrawer?.toggleDrawer());
@@ -61,9 +60,5 @@ export class MainContentComponent {
         slideInFromRight$(el, '100%', this._fadeTiming).subscribe();
       });
     });
-  }
-
-  private updateIsDesktop() {    
-    this.isDesktop.set(!BrowserHelpers.isMobile());
   }
 }

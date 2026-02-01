@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <div class="header" (click)="close()"><mat-icon svgIcon="modal_close" /></div>
+  <mat-dialog-content>
+    <div class="content-wrapper">
+      <div class="my-logo">
+        <img src="/assets/images/cc_logo_transparent.png">
+      </div>
+      <div class="title">Welcome!</div>
+      <div>
+        <p>Thanks for taking the time to visit my professional portfolio website. It serves as a sort of interactive web-based resume that also showcases in realtime how my skills are put to productive use.</p>
+        <p>Created in Angular v20 with RxJs & Reactive patterns, hosted in Azure and making use of Azure Functions for a serverless implementation.</p>
+        <p>If you like what you see here and want to see more of what I can do, please use the "Contact" page to send me a message and begin a conversation that could lead to great things.</p>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="button" (click)="close()">Close</button>
+  </mat-dialog-actions>
+</div>
