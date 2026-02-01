@@ -1,4 +1,5 @@
 @let _cb = currentBranch();
+@let _selected = selectedBranch();
 <div class="page-title">Historical Timeline</div>
 <div class="main-container">
   <div class="timeline-container">
@@ -11,21 +12,26 @@
 
 <ng-template #branchEl let-branch let-$index="$index">
   @let isCurrBranch = _cb === branch;
-  @let isLeft = !!branch && branch.position % 2 === 0;
+  @let isSelected = _selected === branch;
+  @let isLeft = !!branch && branch.position % 2 !== 0;
   @let variableHeight = `calc(${branch.position} * var(--branch-vertical-height))`;
   <div class="branch-container">
-    @if(isLeft) { <ng-container [ngTemplateOutlet]="nodeLeaf" [ngTemplateOutletContext]="{ branch, index: $index }" /> }
+    @if(isLeft) { <ng-container [ngTemplateOutlet]="nodeLeaf" [ngTemplateOutletContext]="{ branch, index: $index, isLeft }" /> }
     <div class="vertical-pipe" [style.height]="variableHeight">
-      <div class="fill" [class.selected]="isCurrBranch" [style.height]="isCurrBranch ? variableHeight : 0" [class.left]="isLeft"></div>
+      <div class="fill" [class.current-branch]="isCurrBranch" [style.height]="isCurrBranch ? variableHeight : 0" [class.left]="isLeft"></div>
+      <div class="selected fill" [style.height]="isSelected ? variableHeight : 0"></div>
+    </div>    
+    <div class="horizontal-pipe" [class.left]="isLeft">
+      <div class="node-year" [class.left]="isLeft" [class.year-hovered]="branch.isHovered" [class.selected]="isSelected">{{ branch.year | date:'yyyy' }}</div>
+      <div class="fill" [class.current-branch]="isCurrBranch"></div>
+      <div class="fill" [class.selected]="isSelected"></div>
     </div>
-    <div class="horizontal-pipe" [class.left]="isLeft" (click)="selectBranch(branch)">
-      <div class="fill" [class.selected]="isCurrBranch"></div>
-    </div>
+    @if(!isLeft) { <ng-container [ngTemplateOutlet]="nodeLeaf" [ngTemplateOutletContext]="{ branch, index: $index }" /> }
   </div>
 </ng-template>
 
-<ng-template #nodeLeaf let-branch="branch" let-index="index">
-  <div #imageEl class="timeline-node" (click)="openNode(index)" (pointerenter)="animateHover(branch)" (pointerleave)="animateHover(null)">
+<ng-template #nodeLeaf let-branch="branch" let-index="index" let-isLeft="isLeft">
+  <div #imageEl class="timeline-node" [class.left]="isLeft" (click)="openNode(branch)" (pointerenter)="animateHover(branch)" (pointerleave)="animateHover(null)">
     <div class="image-container">
       <img [src]="branch.imgSrc" alt="Timeline Placeholder">
       @if(!!branch.badgeIcon) { <div class="badge-icon"><mat-icon [svgIcon]="branch.badgeIcon" /></div> }

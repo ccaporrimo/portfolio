@@ -1,38 +1,34 @@
+<div class="title">Let's Connect</div>
 @if (isSuccess() !== true)
 {
   @if (isSuccess() === false && !isSending())
   {
     <div class="failure">Something went wrong with your communication. Please try again.</div>
   }
-<form #form (submit)="sendContact()">
+<form [formGroup]="form" (ngSubmit)="sendContact()">
   <div class="form-container">
-    <div class="title">Let's Connect</div>
-    <div class="form-field">
-      <label for="firstName">First Name</label>
-      <input [disabled]="isSending()" id="firstName" name="firstName" [(ngModel)]="payload.firstName" type="text">
-    </div>
-    <div class="form-field">
-      <label for="lastName">Last Name</label>
-      <input [disabled]="isSending()" id="lastName" name="lastName" [(ngModel)]="payload.lastName" type="text">
-    </div>
-    <div class="form-field">
-      <label for="email">Email address</label>
-      <input [disabled]="isSending()" id="email" name="email" [(ngModel)]="payload.email" required type="email">
-    </div>
-    <div class="form-field">
-      <label for="company">Company</label>
-      <input [disabled]="isSending()" id="company" name="company" [(ngModel)]="payload.company" type="text">
-    </div>
-    <div class="form-field row">      
-      <input [disabled]="isSending()" id="recruiter" name="recruiter" [(ngModel)]="payload.isRecruiter" type="checkbox">
-      <label for="recruiter">I am a recruiter</label>
-    </div>
-    <div class="form-field">
-      <label for="message">Message</label>
-      <textarea [disabled]="isSending()" rows="5" id="message" name="message" [(ngModel)]="payload.message"></textarea>
-    </div>
-    <button [disabled]="isSending()" [class.is-sending]="isSending()" class="form-field" type="submit">
-      @if(!isSending()) { Connect! }
+    @for (formField of formFields; track formField.name)
+    {
+      <div class="form-field" [class.row]="formField.type === 'checkbox'">
+        @if(formField.type !== 'checkbox') 
+        { 
+          <label [for]="formField.name">{{ formField.label }}
+            @if(formField.isRequired) {<span>*</span>}
+          </label>
+        }
+        @if(formField.type !== 'textarea') { <input [formControlName]="formField.name" [id]="formField.name" [type]="formField.type"> }
+        @else { <textarea rows="5" [formControlName]="formField.name" [id]="formField.name"></textarea> }
+        @if(formField.type === 'checkbox') { <label [for]="formField.name">{{ formField.label }}</label> }
+        @let _fieldControl = form.controls[formField.name];
+        @if(formField.isRequired)
+        {
+          @if(formField.name !== 'email') { <span class="error" [class.show]="_fieldControl.touched && _fieldControl.invalid">Required field must be filled out</span> }
+          @else { <span class="error" [class.show]="_fieldControl.touched && _fieldControl.invalid">Invalid email address</span> }
+        }
+      </div>
+    }
+    <button [class.disabled]="isSending() || form.invalid" [class.is-sending]="isSending()" class="form-field" type="submit">
+      @if(!isSending()) { Connect }
       @else { <app-loading-spinner /> }
     </button>
   </div>  

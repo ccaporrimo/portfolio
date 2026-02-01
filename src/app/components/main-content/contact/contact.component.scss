@@ -3,12 +3,17 @@
 
 :host {
     width: 100%;
-    height: 100%;
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+
+.title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: h.get-font-size(1.75);
 }
 
 form {
@@ -29,11 +34,6 @@ form {
 
     background-color: rgba(0, 0, 0, 0.25);
 
-    .title {
-        font-family: "Space Grotesk", sans-serif;
-        font-size: h.get-font-size(1.75);
-    }
-
     .form-field {
         display: flex;
         flex-direction: column;
@@ -43,6 +43,24 @@ form {
             flex-direction: row;
             gap: 1rem;
             align-items: center;
+        }
+
+        .error {
+            color: rgba(255, 0, 0, 0);     
+            font-size: h.get-font-size(0.75);
+            transition: color 0.3s;
+
+            &.show {
+                color: red;
+            }
+        }
+
+        label span {
+            color: red;
+            font-weight: 700;
+            position: relative;
+            top: -6px;
+            font-size: h.get-font-size(0.6);
         }
 
         input, textarea {
@@ -101,7 +119,7 @@ form {
             } 
 
             &:checked::after {
-                background-color: var(--glowing-fill);
+                background-color: v.$colorPrimaryInv;
             }
 
             &:disabled {
@@ -137,9 +155,15 @@ form {
         background-color: v.$colorPrimaryInv;
         color: v.$colorPrimary;
         filter: brightness(1);
-        transition: background-color 0.3s, color 0.3s, filter 0.3s;
+        opacity: 1; 
+        transition: background-color 0.3s, color 0.3s, filter 0.3s, opacity 0.3s;
+        
+        &.disabled {        
+            opacity: 0.6;
+            pointer-events: none;
+        }
 
-        &:hover:not(.is-sending) {
+        &:hover:not(.is-sending):not(.disabled) {
             @media (prefers-color-scheme: light) {
                 filter: brightness(1.33);
             }

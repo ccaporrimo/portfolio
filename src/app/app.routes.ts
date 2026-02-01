@@ -7,6 +7,7 @@ import { NotFoundComponent } from './components/ui/not-found/not-found.component
 import { ResumeComponent } from './components/main-content/resume/resume.component';
 import { HistoryDetailComponent } from './components/main-content/history-detail/history-detail.component';
 import { ContactComponent } from './components/main-content/contact/contact.component';
+import { HistoryComponent } from './components/main-content/history/history.component';
 
 export const routes: Routes = [
     {
@@ -33,7 +34,7 @@ export const routes: Routes = [
     },
     {
         path: 'timeline',
-        component: TimelineComponent
+        component: HistoryComponent
     },
     {
         path: 'history/:timelineId',

@@ -41,18 +41,29 @@
     .vertical-pipe {
         width: var(--branch-vertical-width);
         background-color: v.$colorPrimaryDark;
+        position: relative;
 
         .fill {
             width: 100%;
             transition: height var(--transition-duration) var(--transition-duration);
-            background-color: var(--color-highlight-500);
-            z-index: 1;
+            background-color: v.$colorHighlight50Opacity;;
+            z-index: 2;
             position: relative;
             top: 0;
             left: 0;
 
-            &.selected {
+            &.current-branch {
                 z-index: 5;
+                transition: height var(--transition-duration) 0s;
+            }
+
+            &.selected {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
+
+                background-color: v.$colorPrimaryInv;
                 transition: height var(--transition-duration) 0s;
             }
         }
@@ -77,15 +88,25 @@
             top: 0;
             left: 0;
             transition: width var(--transition-duration) 0s;
-            background-color: var(--color-highlight-500);
+            background-color: v.$colorHighlight50Opacity;
             height: 100%;
-            z-index: 1;
+            z-index: 2;
 
             border-bottom-left-radius: 6px;
 
-            &.selected {
+            &.current-branch {
                 width: 100%;
                 transition: width var(--transition-duration) var(--transition-duration);
+            }
+
+            &.selected {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                transition: width var(--transition-duration) var(--transition-duration);
+                background-color: v.$colorPrimaryInv;
+                z-index: 1;
             }
         }
 
@@ -107,17 +128,25 @@
     border: 1px solid v.$colorPrimaryInv;
     border-radius: 6px;
 
+    pointer-events: all;
     cursor: pointer;
+    z-index: 10;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    position: relative;
+    position: absolute;
+    bottom: -30px;
+    right: 5%;
+    &.left {
+        right: unset;
+        left: 5%;
+    }
 
     background-image:
-    linear-gradient(rgba(0, 0, 0, 0.67) 1px, transparent 1px),
-    linear-gradient(to right, rgba(0, 0, 0, 0.67) 1px, transparent 1px);
+        linear-gradient(rgba(0, 0, 0, 0.67) 1px, transparent 1px),
+        linear-gradient(to right, rgba(0, 0, 0, 0.67) 1px, transparent 1px);
 
     background-size: 2px 2px;
     
@@ -161,5 +190,33 @@
         aspect-ratio: 1 / 1;
 
         box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.node-year {
+    top: -30px;
+    left: 20px;
+    position: absolute;
+    font-size: h.get-font-size(1.25);
+
+    color: v.$colorPrimary;
+    transition: color 0.15s;
+
+    &.left {
+        left: unset;
+        right: 20px;
+    }
+
+    &.selected {
+        color: v.$colorPrimaryInv;
+    }
+    
+    &.year-hovered {
+        color: v.$colorPrimaryInv;
+        opacity: 0.5;
+
+        &.selected {
+            opacity: 1;
+        }
     }
 }

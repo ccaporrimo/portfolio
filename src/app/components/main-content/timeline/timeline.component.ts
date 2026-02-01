@@ -13,7 +13,7 @@ import { HistoryDetailDialogComponent } from '../../ui/history-detail-dialog/his
 const fBranchHeight = 'var(--full-branch-height)';
 const tBranchHeight = 'var(--timeline-branch-height)';
 const { isMobile } = BrowserHelpers;
-const extraHeight = isMobile() ? '33px' : `22px`;
+const extraHeight = isMobile() ? '33px' : `33px`;
 
 @Component({
   selector: 'app-timeline',
