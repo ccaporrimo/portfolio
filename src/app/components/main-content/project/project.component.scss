@@ -15,17 +15,24 @@
         display: flex;
         
         .top-center {
-            width: 50%;
+            width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+
+            @media (min-width: v.$mobile-breakpoint) {
+                width: 50%;
+            }
         }
     }
 
-    .floating-basic-info {
+    .top-left {
         width: 25%;
+    }
+
+    .floating-basic-info {        
         height: 100%;
         padding: 0.5rem;
         box-sizing: border-box;

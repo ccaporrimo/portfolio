@@ -16,7 +16,7 @@
       </div>
       <div class="title">{{ _project.title }}</div>
     </div>
-    <div class="top-right"></div>
+    @if (!isMobile()) { <div class="top-right"></div> }
   </div>
   <hr>
   @if (_project.basicInfo && isMobile())
