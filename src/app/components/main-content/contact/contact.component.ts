@@ -17,15 +17,7 @@ export class ContactComponent {
   protected isSending: WritableSignal<boolean> = signal(false);
   protected isSuccess: WritableSignal<boolean | null> = signal(null);
 
-  protected readonly payload: ContactMePayload = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    company: '',
-    isRecruiter: false,
-    messageSubject: '',
-    message: ''
-  }
+  protected payload!: ContactMePayload;
 
   protected readonly formFields: ContactFormField[] = [
     { name: 'firstName', label: 'First name', type: 'text', isRequired: true, validators: [Validators.required] },
@@ -47,10 +39,11 @@ export class ContactComponent {
   }
 
   sendContact() {
-    const { firstName, lastName, email, company, message } = this.payload;
-    if (!firstName || !lastName || !this.isValidEmail(email) || !company || !message) {
-      return;
-    }
+    if (!this.form.valid) return;
+    this.payload = { ...this.form.value } as ContactMePayload;
+    if (!this.isValidEmail(this.form.get('email')?.value)) return;
+
+    this.isSending.set(true);
 
     this._dataService.sendEmail(this.payload).pipe(
       take(1),
